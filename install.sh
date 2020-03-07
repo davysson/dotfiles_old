@@ -1,3 +1,4 @@
 sudo eopkg install -y git tmux fish alacritty font-iosevka-ttf source-code-pro
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
