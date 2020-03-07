@@ -1,12 +1,3 @@
-#!/usr/bin/env bash
-if ! [ -x "$(command -v cargo)" ]; then
-  echo "installing cargo..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  set PATH=$HOME/.cargo/bin:$PATH
-fi
+sudo eopkg install -y git tmux fish alacritty font-iosevka-ttf source-code-pro
 
-if ! [ -x "$(command -v starship)" ]; then
-  echo "installing startship..."
-  cargo install starship
-fi
-
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
