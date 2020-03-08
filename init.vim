@@ -1,16 +1,36 @@
-" Plugins
+" Plugins -------------
 
 call plug#begin()
+" General -------------
 Plug 'mhinz/vim-startify'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
-Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 Plug 'preservim/nerdcommenter'
+Plug 'sbdchd/neoformat'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+Plug 'sheerun/vim-polyglot'
+
+" HTML/CSS ------------
+Plug 'mattn/emmet-vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
+
+" Javascript ----------
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+
+" Typescript ----------
+
+" Python -------------
+Plug 'zchee/deoplete-jedi'
+
 call plug#end()
 
 let mapleader = ','                     " use , as leader
@@ -24,6 +44,10 @@ set nowritebackup
 set noswapfile                          " no swap files
 set autowrite                           " automatically save before commands
 set autoread                            " automatically reread changed files
+set cmdheight=2                         " give some space to display messages
+set updatetime=300                      " less delay and better user experience
+set shortmess+=c                        " don't pass message to |ins-completion-menu|
+set signcolumn=yes                      " always show the signcolumn
 
 set splitbelow                          " horizontal split always bellow current window
 set splitright                          " vertical split always to the right of current window
@@ -55,6 +79,11 @@ set shiftround
 set expandtab
 set nojoinspaces
 
+" enable true colors
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " add numbers
 set number
 set numberwidth=5
@@ -65,12 +94,7 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
-
-" better window movements
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+" startify
 
 " airline
 let g:airline_theme='base16_twilight'
@@ -81,4 +105,17 @@ let g:airline_powerline_fonts=1
 " nerdtree
 map <leader>n :NERDTreeToggle<CR>
 
-" tagbar
+" deoplete
+let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif " autocloses preview window
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>" " navegates preview using <TAB>
+
+" ALE
+let b:ale_linters = ['flake8', 'pylint']
+" Fix Python files with autopep8 and yapf.
+let b:ale_fixers = ['autopep8', 'yapf']
+" Disable warnings about trailing whitespace for Python files.
+let b:ale_warn_about_trailing_whitespace = 0
+
+" Emmet
+let g:user_emmet_leader_key=',' " trigger emmet with leader key
