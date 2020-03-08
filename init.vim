@@ -4,15 +4,24 @@ call plug#begin()
 " General -------------
 Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 Plug 'preservim/nerdcommenter'
 Plug 'sbdchd/neoformat'
+Plug 'tmux-plugins/vim-tmux'
+
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -31,7 +40,11 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 " Python -------------
 Plug 'zchee/deoplete-jedi'
 
+
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
+
+colorscheme dracula
 
 let mapleader = ','                     " use , as leader
 
@@ -79,6 +92,15 @@ set shiftround
 set expandtab
 set nojoinspaces
 
+" better split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set splitbelow
+set splitright
+
 " enable true colors
 if (has("termguicolors"))
   set termguicolors
@@ -97,7 +119,7 @@ nnoremap <Down> :echoe "Use j"<CR>
 " startify
 
 " airline
-let g:airline_theme='base16_twilight'
+"let g:airline_theme='base16_twilight'
 let g:airline_powerline_fonts=1
 
 " nerdcommenter
@@ -119,3 +141,8 @@ let b:ale_warn_about_trailing_whitespace = 0
 
 " Emmet
 let g:user_emmet_leader_key=',' " trigger emmet with leader key
+
+" ultsnips
+let g:UltiSnipsExpandTrigger="<c-space>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
