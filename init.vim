@@ -1,4 +1,4 @@
-" Leader
+
 let mapleader = ','                     " use , as leader
 
 " Encoding
@@ -42,7 +42,7 @@ set showmatch                           " Show matching brackets
 set lazyredraw                          " Don't redraw while executing macros (good performance config)
 set nowrap                              " Don't wrap lines
 set noshowmode                          " don't show current mode ( use airline)
-set nocursorcolumn                      " Don't display current cursor column 
+set nocursorcolumn                      " Don't display current cursor column
 set colorcolumn=120                     " HIghlight column 120
 set cursorline                          " Highlight current line
 set numberwidth=5                       " Width in columns of the gutter
@@ -87,7 +87,6 @@ set history=50                          " save the last 50 commands
 set timeoutlen=500
 set nojoinspaces
 set whichwrap+=h,l                          " Allow h,j to go to next line
-set clipboard=unnamedplus                 " Use system clipboard
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
@@ -116,7 +115,7 @@ nnoremap <silent> <S-H> :vnew<CR>
 nnoremap <silent> <S-K> :new<CR>
 
 " Split resize
-nnoremap < <C-W>< 
+nnoremap < <C-W><
 nnoremap > <C-W>>
 
 " Fast saving and quitting
@@ -127,11 +126,11 @@ map <silent> <leader>q :q<CR>
 map <silent> <leader>qa :qa!<CR>
 
 " Better tab nav
-map <silent> <leader>tn :tabnew<cr>
-map <silent> <leader>to :tabonly<cr>
-map <silent> <leader>tc :tabclose<cr>
-map <silent> <leader>tm :tabmove<CR>
-map <silent> <leader>t :tabnext<CR>
+"map <silent> <leader>tn :tabnew<cr>
+"map <silent> <leader>to :tabonly<cr>
+"map <silent> <leader>tc :tabclose<cr>
+"map <silent> <leader>tm :tabmove<CR>
+"map <silent> <leader>t :tabnext<CR>
 
 " Reload config
 map <silent> <leader>r :so %<CR>
@@ -149,41 +148,28 @@ cnoremap <C-K>		<C-U>
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
 
-" Use tab for completion
-inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent> <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+" Use TAB to select popup menu
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Delete trailing white space on save, useful for some filetypes ;)
-fun! CleanExtraSpaces()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    silent! %s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfun
-
-if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
-endif
-
-" Plugins 
+" Plugins
 call plug#begin()
 Plug 'dracula/vim', { 'as': 'dracula' }                             " Dracula theme
 Plug 'mhinz/vim-startify'                                           " Open startpage when no file is passed as argument
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }        " Generic finder and dispatcher
+Plug 'Yggdroot/indentLine'                                          " Display indentation levels
 Plug 'lambdalisue/suda.vim'                                         " Allows saving file as sudo
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }         " UI for vim
+Plug 'roxma/nvim-yarp'                                              " Remote plugin framework
+Plug 'tpope/vim-dispatch'                                           " Async build and test dispatcher
 Plug 'preservim/nerdcommenter'                                      " Easy code commenting
 Plug 'jiangmiao/auto-pairs'                                         " Automatically pair (), {}, etc
-Plug 'majutsushi/tagbar'                                            " Tag bar panel
+Plug 'liuchengxu/vista.vim'                                         " Viewer for LSP symbols and tags
 Plug 'tpope/vim-surround'                                           " Easy surrounding
 Plug 'tpope/vim-fugitive'                                           " Git integration
 Plug 'airblade/vim-gitgutter'                                       " Display git status on gutter
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }             " Code completion engine for vim
-Plug 'SirVer/ultisnips'                                             " Snippets engine
 Plug 'honza/vim-snippets'                                           " Community driven snippets
 Plug 'dense-analysis/ale'                                           " Asyncronous lint engine
-Plug 'sbdchd/neoformat'                                             " Code formating
 Plug 'vim-airline/vim-airline'                                      " Better status line
 Plug 'sheerun/vim-polyglot'                                         " Extensive language pack
 Plug 'mattn/emmet-vim'                                              " Emmet for vim
@@ -195,52 +181,73 @@ colorscheme dracula
 
 " Startify
 let g:startify_custom_indices = map(range(1,100), 'string(v:val)')  " Start at index 1
-nmap <leader>o :Startify<CR>
+let g:startify_fortune_use_unicode = 0                              " Draw fortune box using unicode
+nmap <silent> <leader>s :Startify<CR>
 
-" Ultisnip
-let g:UltiSnipsExpandTrigger='<c-space>'
-let g:UltiSnipsJumpForwardTrigger='<c-j>'
-let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+" Clap
+let g:clap_layout = { 'relative': 'editor' }                          " Center relative to the editor
 
+nmap <silent> <leader>b :Clap buffers<CR>
+nmap <silent> <leader>c :Clap colors<CR>
+nmap <silent> <leader>d :Clap help_tags<CR>
+nmap <silent> <leader>f :Clap filer<CR>
+nmap <silent> <leader>g :Clap grep<CR>
+nmap <silent> <leader>h :Clap history<CR>
+nmap <silent> <leader>t :Clap tags<CR>
 
-" Tagbar
-let g:tagbar_width=42
-"autocmd BufEnter * nested :call tagbar#autoopen(0)
-"autocmd BufWinLeave *.py :TagbarClose
+" Suda
+let g:suda_smart_edit = 1                                           " Auto switch when you don't have permission
+
+" Vista
+let g:vista#renderer#enable_icon = 1                                  " Use symbols
+
+" Emmet
+let g:user_emmet_leader_key='<,>' " trigger emmet with leader key
 
 " Airline
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 
 " ALE
-let b:ale_linters = ['flake8', 'pylint']
-let b:ale_fixers = ['autopep8', 'yapf']
-let b:ale_warn_about_trailing_whitespace = 0
+highlight ALEWarning ctermbg=DarkMagenta
 
-" Emmet
-let g:user_emmet_leader_key='<,>' " trigger emmet with leader key
+let g:ale_fix_on_save = 1                                                 " Run fixer when saving files
+let g:ale_set_signs = 0                                                   " Don't use the sign column/gutter for ALE
+let g:ale_lint_on_text_changed = 'normal'                                 " Lint always in Normal Mode
+let g:ale_lint_on_insert_leave = 1                                          " Lint when leaving Insert Mode but don't lint when in Insert Mode
+let g:ale_lint_delay = 0                                                  " Set ALE's 200ms delay to zero
+let g:airline#extensions#ale#enabled = 1                                      " Show ale erros on status line
+let g:ale_completion_enabled = 1                                        " Use ale for autocomplete
 
-" Denite
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
-endfunction
+" Set colors for marked lines to sane, readable combinations
+au VimEnter,BufEnter,ColorScheme *
+  \ exec "hi! ALEInfoLine
+    \ guifg=".(&background=='light'?'#808000':'#538b97')."
+    \ guibg=".(&background=='light'?'#ffff00':'#555500') |
+  \ exec "hi! ALEWarningLine
+    \ guifg=".(&background=='light'?'#808000':'#ffb86c')."
+    \ guibg=".(&background=='light'?'#ffff00':'#996e40') |
+  \ exec "hi! ALEErrorLine
+    \ guifg=".(&background=='light'?'#ff0000':'#ff5555')."
+    \ guibg=".(&background=='light'?'#ffcccc':'#993333')
 
-nmap <silent> ;; :Denite buffer file/rec -split=floating -winrow=1<CR>
-nmap <silent> ;b :Denite buffer -split=floating -winrow=1<CR>
-nmap <silent> ;c :Denite colorscheme -split=floating -winrow=1<CR>
-nmap <silent> ;f :Denite file/rec -split=floating -winrow=1<CR>
-nmap <silent> ;g :Denite grep -split=floating -winrow=1<CR>
-nmap <silent> ;d :Denite directory_rec -split=floating -winrow=1<CR>
-nmap <silent> ;h :Denite help -split=floating -winrow=1<CR>
+let g:ale_linters_explicit = 1                                          " Only run linters named in ale_linters settings.
+
+" prefered linters
+let g:ale_linters = {
+\   'javascript': ['eslint', 'tsserver'],
+\   'typescript': ['eslint', 'tsserver'],
+\   'python': ['pylint', 'pyls'],
+\   'rust': ['cargo', 'rls'],
+\   'go': ['gofmt', 'gopls']
+\}
+
+" prefered fixers
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'eslint'],
+\   'go': ['gofmt'],
+\   'rust': ['rustfmt'],
+\   'python': ['yapf'],
+\}
