@@ -1,3 +1,37 @@
+" Install vim-plug
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync
+
+
+" Plugins
+call plug#begin()
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+Plug 'mhinz/vim-startify'                                           " Open startpage when no file is passed as argument
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }        " Generic finder and dispatcher
+Plug 'Yggdroot/indentLine'                                          " Display indentation levels
+Plug 'lambdalisue/suda.vim'                                         " Allows saving file as sudo
+Plug 'roxma/nvim-yarp'                                              " Remote plugin framework
+Plug 'tpope/vim-dispatch'                                           " Async build and test dispatcher
+Plug 'preservim/nerdcommenter'                                      " Easy code commenting
+Plug 'jiangmiao/auto-pairs'                                         " Automatically pair (), {}, etc
+Plug 'liuchengxu/vista.vim'                                         " Viewer for LSP symbols and tags
+Plug 'tpope/vim-surround'                                           " Easy surrounding
+Plug 'tpope/vim-fugitive'                                           " Git integration
+Plug 'airblade/vim-gitgutter'                                       " Display git status on gutter
+Plug 'honza/vim-snippets'                                           " Community driven snippets
+Plug 'dense-analysis/ale'                                           " Asyncronous lint engine
+Plug 'itchyny/lightline.vim'                                     " Lightline plugin
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
+Plug 'sheerun/vim-polyglot'                                         " Extensive language pack
+Plug 'mattn/emmet-vim'                                              " Emmet for vim
+Plug 'ryanoasis/vim-devicons'                                       " Adds devicons support for vim
+call plug#end()
+
+" Set default colorscheme
+colorscheme challenger_deep
 
 let mapleader = ','                     " use , as leader
 
@@ -48,6 +82,8 @@ set cursorline                          " Highlight current line
 set numberwidth=5                       " Width in columns of the gutter
 set signcolumn=yes                      " always show the signcolumn
 set cmdheight=2                        " Number of lines below statusline
+set showtabline=2                       " Always shows tabline
+set guicursor=n-v-c-sm:ver25-blinkon0,i-ci-ve:ver25,r-cr-o:hor20  " Use normal cursor
 
 " Search
 set incsearch                           " show matchs while typing
@@ -115,8 +151,9 @@ nnoremap <silent> <S-H> :vnew<CR>
 nnoremap <silent> <S-K> :new<CR>
 
 " Split resize
-nnoremap < <C-W><
-nnoremap > <C-W>>
+nnoremap - <C-W><
+nnoremap + <C-W>>
+nnoremap = <C-W>=
 
 " Fast saving and quitting
 map <silent> <leader>w :w!<CR>
@@ -153,31 +190,6 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Plugins
-call plug#begin()
-Plug 'dracula/vim', { 'as': 'dracula' }                             " Dracula theme
-Plug 'mhinz/vim-startify'                                           " Open startpage when no file is passed as argument
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }        " Generic finder and dispatcher
-Plug 'Yggdroot/indentLine'                                          " Display indentation levels
-Plug 'lambdalisue/suda.vim'                                         " Allows saving file as sudo
-Plug 'roxma/nvim-yarp'                                              " Remote plugin framework
-Plug 'tpope/vim-dispatch'                                           " Async build and test dispatcher
-Plug 'preservim/nerdcommenter'                                      " Easy code commenting
-Plug 'jiangmiao/auto-pairs'                                         " Automatically pair (), {}, etc
-Plug 'liuchengxu/vista.vim'                                         " Viewer for LSP symbols and tags
-Plug 'tpope/vim-surround'                                           " Easy surrounding
-Plug 'tpope/vim-fugitive'                                           " Git integration
-Plug 'airblade/vim-gitgutter'                                       " Display git status on gutter
-Plug 'honza/vim-snippets'                                           " Community driven snippets
-Plug 'dense-analysis/ale'                                           " Asyncronous lint engine
-Plug 'vim-airline/vim-airline'                                      " Better status line
-Plug 'sheerun/vim-polyglot'                                         " Extensive language pack
-Plug 'mattn/emmet-vim'                                              " Emmet for vim
-Plug 'ryanoasis/vim-devicons'                                       " Adds devicons support for vim
-call plug#end()
-
-" Set default colorscheme
-colorscheme dracula
 
 " Startify
 let g:startify_custom_indices = map(range(1,100), 'string(v:val)')  " Start at index 1
@@ -204,9 +216,64 @@ let g:vista#renderer#enable_icon = 1                                  " Use symb
 " Emmet
 let g:user_emmet_leader_key='<,>' " trigger emmet with leader key
 
-" Airline
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
+" Lightline
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+
+let g:lightline#bufferline#filename_modifier = ':t'
+let g:lightline#bufferline#min_buffer_count = 2
+let g:lightline#bufferline#unicode_symbols =1
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#show_number  = 2
+let g:lightline#bufferline#shorten_path = 0
+let g:lightline#bufferline#unnamed      = '[unnamed]'
+let g:lightline#bufferline#composed_number_map = {
+\ 1:  '⑴ ', 2:  '⑵ ', 3:  '⑶ ', 4:  '⑷ ', 5:  '⑸ ',
+\ 6:  '⑹ ', 7:  '⑺ ', 8:  '⑻ ', 9:  '⑼ ', 10: '⑽ ',
+\ 11: '⑾ ', 12: '⑿ ', 13: '⒀ ', 14: '⒁ ', 15: '⒂ ',
+\ 16: '⒃ ', 17: '⒄ ', 18: '⒅ ', 19: '⒆ ', 20: '⒇ '}
+
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_infos = "\uf129"
+let g:lightline#ale#indicator_warnings = "\uf071"
+let g:lightline#ale#indicator_errors = "\uf05e"
+let g:lightline#ale#indicator_ok = "\uf00c"
+
+let g:lightline = { 'colorscheme': 'challenger_deep'}
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+
+let g:lightline.component_expand = {
+      \  'buffers': 'lightline#bufferline#buffers',
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+
+let g:lightline.component_type = {
+      \     'buffers': 'tabsel',
+      \     'linter_checking': 'right',
+      \     'linter_infos': 'right',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'right',
+      \ }
+
+let g:lightline.active = {
+      \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'filename' ] ],
+      \   'right': [
+      \    [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ],
+      \   [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]]
+      \}
 
 " ALE
 highlight ALEWarning ctermbg=DarkMagenta
@@ -216,7 +283,6 @@ let g:ale_set_signs = 0                                                   " Don'
 let g:ale_lint_on_text_changed = 'normal'                                 " Lint always in Normal Mode
 let g:ale_lint_on_insert_leave = 1                                          " Lint when leaving Insert Mode but don't lint when in Insert Mode
 let g:ale_lint_delay = 0                                                  " Set ALE's 200ms delay to zero
-let g:airline#extensions#ale#enabled = 1                                      " Show ale erros on status line
 let g:ale_completion_enabled = 1                                        " Use ale for autocomplete
 
 " Set colors for marked lines to sane, readable combinations
