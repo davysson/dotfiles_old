@@ -1,1 +1,2 @@
-/home/davysson/.config/fish/config.fish
+# start starship prompt
+starship init fish | source

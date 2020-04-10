@@ -11,7 +11,7 @@ call plug#begin()
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+Plug 'yuki-ycino/fzf-preview.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'lambdalisue/suda.vim'
 Plug 'roxma/nvim-yarp'
@@ -218,37 +218,14 @@ let g:startify_fortune_use_unicode = 0
 nmap <silent> <leader>s :Startify<CR>
 
 " fzf
-nmap <silent> <leader>b :Buffers<CR>
-nmap <silent> <leader>c :Colors<CR>
-nmap <silent> <leader>d :Helptags<CR>
-nmap <silent> <leader>f :Clap filer<CR>
-nmap <silent> <leader>l :Lines<CR>
-nmap <silent> <leader>g :Rg<CR>
-nmap <silent> <leader>m :Maps<CR>
-nmap <silent> <leader>h :History<CR>
+
+nmap <silent> <leader>b :FzfPreviewBuffers<CR>
+nmap <silent> <leader>f :FzfPreviewProjectFiles<CR>
+nmap <silent> <leader>l :FzfPreviewBufferLines<CR>
+nmap <silent> <leader>g :FzfPreviewGitStatus<CR>
+nmap <silent> <leader>h :FzfPreviewOldFiles<CR>
 nmap <silent> <leader>r :AsyncTaskFzf<CR>
 nmap <silent> <leader>t :Vista finder ale<CR>
-
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
-
-  let winheight = winheight(0)
-  let winwidth = winwidth(0)
-
-  let width = float2nr(winwidth-(winwidth*2/10))
-
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': &lines - 3,
-        \ 'col': float2nr((winwidth-width)/2),
-        \ 'width': width,
-        \ 'height': &lines - 3
-        \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
 
 " Suda
 let g:suda_smart_edit = 1
