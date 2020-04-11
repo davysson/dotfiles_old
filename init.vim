@@ -36,76 +36,50 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " Encoding
-set encoding=utf-8                             " set default encoding to UTF-8
-set fileformats=unix,dos,mac            " prefer unix file formats
 set formatoptions-=cro                  " Disable autocommenting new lines
 
-" Errors
-set noerrorbells                        " no beeps
-set novisualbell                        " Turn off visual bell
-set visualbell t_vb=                    " Turn off error beep/flash
-
 " File & Buffers
-set nobackup                            " no backup files
 set nowritebackup                       " no write backup
 set noswapfile                          " no swap files
 set autowrite                           " automatically save before commands
-set autoread                            " automatically reload changed files
 au FocusGained,BufEnter * checktime     " Autocheck buffer when switching buffer or focusing
 set hidden                              " buffer becomes hidden when abandoned
 set nomodeline                          " Disable modeline
-set pastetoggle=<F2>                    " Paste data without autoindent
 set undodir=~/.vim/undodir              " Directory to save undo history
 set undofile                            " Allow vim to persist undo between sessions"
 
 " Windows and Tabs
 set splitbelow                          " Vertical splits always below
 set splitright                          " Horizontal splits always to the right
-set laststatus=2                        " last window always has status line
 
 " Movement
 set scrolloff=10                        " Always keep 10 lines below or above when scrolling
 
 " Display
-set background=dark
 set termguicolors                             " Enable support for 24-bit colors
-set title                                     " display file status on terminal title
-set ruler                                     " show the cursor position all the time
+set title                                     " display file name on terminal title
 set number                                    " Show line numbers
-set showcmd                                   " show what is being typed
-set showmatch                                 " Show matching brackets
 set lazyredraw                                " Don't redraw while executing macros (good performance config)
 set nowrap                                    " Don't wrap lines
 set noshowmode                                " don't show current mode ( use airline)
-set nocursorcolumn                            " Don't display current cursor column
 set colorcolumn=120                         " HIghlight column 120
 set cursorline                              " Highlight current line
 set numberwidth=5                           " Width in columns of the gutter
 set signcolumn=yes                          " always show the signcolumn
 set cmdheight=2                        " Number of lines below statusline
-set showtabline=2                       " Always shows tabline
 set guicursor=n-v-c-sm:ver25-blinkon0,i-ci-ve:ver25,r-cr-o:hor20  " Use normal cursor
 
 " Search
-set incsearch                           " show matchs while typing
-set hlsearch                            " highlight found searches
 set ignorecase                          " search case insensitive
 set smartcase                           " case sensitive when pattern uses upper case
-set magic                               " Always use magic for patterns
-set gdefault                            " Applies substitution globally on lines
-
-" Selection
-set selection=inclusive                 " Last selected character is included
 
 " Tab
 set expandtab                           " Expand tabs to spaces
-set smarttab                            " Insert 'shiftwidth' spaces when at the start of a line
 set shiftround                          " Round indentation to multiples of shiftwidth
 set tabstop=2                           " Number of spaces a tab counts for
 set softtabstop=2                       " Number of spaces a tab counts for while editing
 
 " Indentation
-set autoindent                          " auto indent new lines
 set copyindent                          " copy previous indentation on autoindent
 set smartindent                         " smart indent new lines
 set shiftwidth=2                        " number of spaces to use as indentation
@@ -120,15 +94,12 @@ autocmd! bufenter * if &ft ==# 'help' | wincmd L | endif " Open help on vertical
 set backspace=indent,eol,start          " better backspace
 set updatetime=300                      " less delay and better user experience
 set shortmess+=c                        " don't pass message to |ins-completion-menu|
-set history=50                          " save the last 50 commands
-set timeoutlen=500
-set nojoinspaces
+set history=100                          " save the last 100 commands
+set timeoutlen=500                      " time to wait for a mapped sequence to complete
 set whichwrap+=h,l                      " Allow h,j to go to next line
 set completeopt=menu,menuone,preview,noselect,noinsert  " fix autocomplete
 
 " Colorscheme
-set background=dark
-
 colorscheme palenight
 let g:lightline = { 'colorscheme': 'palenight'}
 let g:palenight_terminal_italics=1
@@ -178,12 +149,6 @@ map <silent> <leader>qa :qa<CR>
 
 " Fast file creation
 map <silent> <leader>e :enew<CR>
-
-" Disable arrows
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
 
 " Bash like keys for the command line
 cnoremap <C-A> <Home>
