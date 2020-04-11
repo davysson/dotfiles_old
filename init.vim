@@ -10,46 +10,30 @@ endif
 call plug#begin()
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'mhinz/vim-startify'
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'yuki-ycino/fzf-preview.vim'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'Yggdroot/indentLine'
-Plug 'lambdalisue/suda.vim'
-Plug 'roxma/nvim-yarp'
-Plug 'tpope/vim-projectionist'
 Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'roxma/nvim-yarp'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'RRethy/vim-illuminate'
 Plug 'jiangmiao/auto-pairs'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'liuchengxu/vista.vim'
-Plug 'tpope/vim-surround'
-Plug 'wellle/targets.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale'
 Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'justinmk/vim-sneak'
 Plug 'psliwka/vim-smoothie'
-Plug 'maximbaz/lightline-ale'
 Plug 'sheerun/vim-polyglot'
-Plug 'mattn/emmet-vim'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
-
-" Colorscheme
-set background=dark
-colorscheme palenight
-let g:lightline = { 'colorscheme': 'palenight'}
-let g:palenight_terminal_italics=1
-highlight Sneak guibg=g:terminal_color_0 guifg=g:terminal_color_background
 
 " Encoding
 set encoding=utf-8                             " set default encoding to UTF-8
@@ -60,7 +44,6 @@ set formatoptions-=cro                  " Disable autocommenting new lines
 set noerrorbells                        " no beeps
 set novisualbell                        " Turn off visual bell
 set visualbell t_vb=                    " Turn off error beep/flash
-set t_vb=                               " Visual bell doddooes nothing
 
 " File & Buffers
 set nobackup                            " no backup files
@@ -74,7 +57,6 @@ set nomodeline                          " Disable modeline
 set pastetoggle=<F2>                    " Paste data without autoindent
 set undodir=~/.vim/undodir              " Directory to save undo history
 set undofile                            " Allow vim to persist undo between sessions"
-set clipboard+=unnamedplus              " Use system clipboard
 
 " Windows and Tabs
 set splitbelow                          " Vertical splits always below
@@ -85,7 +67,7 @@ set laststatus=2                        " last window always has status line
 set scrolloff=10                        " Always keep 10 lines below or above when scrolling
 
 " Display
-syntax on                                     " syntax is always on
+set background=dark
 set termguicolors                             " Enable support for 24-bit colors
 set title                                     " display file status on terminal title
 set ruler                                     " show the cursor position all the time
@@ -144,6 +126,16 @@ set nojoinspaces
 set whichwrap+=h,l                      " Allow h,j to go to next line
 set completeopt=menu,menuone,preview,noselect,noinsert  " fix autocomplete
 
+" Colorscheme
+set background=dark
+
+colorscheme palenight
+let g:lightline = { 'colorscheme': 'palenight'}
+let g:palenight_terminal_italics=1
+
+highlight Sneak guifg='#bfc7d5' guibg='#697098'
+highlight SneakScope guifg='#bfc7d5' guibg='#BE5046'
+
 " Change map leader
 let mapleader = ','
 
@@ -153,7 +145,7 @@ map 0 ^
 " Disable pattern highlight with return
 nnoremap <silent> <CR> :nohlsearch<CR>
 
-" better split navigation
+" Better split navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -180,7 +172,6 @@ nnoremap = <C-W>=
 
 " Fast saving and quitting
 map <silent> <leader>w :w!<CR>
-map <silent> <leader>W :w suda://%<CR>
 map <silent> <leader>wq :wqa!<CR>
 map <silent> <leader>q :Sayonara<CR>
 map <silent> <leader>qa :qa<CR>
@@ -206,7 +197,7 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-"  Return to last position on startup
+" Return to last position on startup
 autocmd BufReadPost *
       \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
       \ |   exe "normal! g`\""
@@ -214,21 +205,32 @@ autocmd BufReadPost *
 
 " Startify
 let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
-let g:startify_fortune_use_unicode = 0
+let g:startify_fortune_use_unicode = 1
+let g:startify_change_to_dir = 1
+let g:startify_change_to_vcs_root = 1
+let g:startify_files_number = 4
+let g:startify_commands = [
+      \ ['Neovim Reference', 'h ref'],
+      \]
+let g:startify_bookmarks = [{'c': '~/.dotfiles/init.vim'}
+  \, {'f': '~/.dotfiles/config.fish'}
+  \, {'t': '~/.dotfiles/kitty.conf'}]
+
+let g:startify_custom_header = ''
+
 nmap <silent> <leader>s :Startify<CR>
 
-" fzf
+" LeaderF
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
-nmap <silent> <leader>b :FzfPreviewBuffers<CR>
-nmap <silent> <leader>f :FzfPreviewProjectFiles<CR>
-nmap <silent> <leader>l :FzfPreviewBufferLines<CR>
-nmap <silent> <leader>g :FzfPreviewGitStatus<CR>
-nmap <silent> <leader>h :FzfPreviewOldFiles<CR>
-nmap <silent> <leader>r :AsyncTaskFzf<CR>
-nmap <silent> <leader>t :Vista finder ale<CR>
-
-" Suda
-let g:suda_smart_edit = 1
+nmap <silent> <leader>c :LeaderfCommand<CR>
+nmap <silent> <leader>d :LeaderfHelp<CR>
+nmap <silent> <leader>h :LeaderfMru<CR>
+nmap <silent> <leader>l :LeaderfLine<CR>
+nmap <silent> <leader>m :LeaderfFunction<CR>
+nmap <silent> <leader>t :LeaderfTag<CR>
+nmap <silent> <leader>r :Leaderf --nowrap task<CR>
 
 " nerdtree
 let NERDTreeShowHidden = 1
@@ -254,46 +256,57 @@ call deoplete#custom#option('sources', { '_': ['buffer', 'ale'] })
 " Asyntask
 let g:asyncrun_open = 6
 
-function! s:fzf_sink(what)
-	let p1 = stridx(a:what, '<')
-	if p1 >= 0
-		let name = strpart(a:what, 0, p1)
-		let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
-		if name != ''
-			exec "AsyncTask ". fnameescape(name)
-		endif
-	endif
-endfunction
-
-function! s:fzf_task()
+function! s:lf_task_source(...)
 	let rows = asynctasks#source(&columns * 48 / 100)
 	let source = []
 	for row in rows
 		let name = row[0]
 		let source += [name . '  ' . row[1] . '  : ' . row[2]]
 	endfor
-	let opts = { 'source': source, 'sink': function('s:fzf_sink'),
-				\ 'options': '+m --nth 1 --inline-info --tac',
-        \ 'window': 'new'
-        \}
-	if exists('g:fzf_layout')
-		for key in keys(g:fzf_layout)
-			let opts[key] = deepcopy(g:fzf_layout[key])
-		endfor
-	endif
-	call fzf#run(opts)
+	return source
 endfunction
 
-command! -nargs=0 AsyncTaskFzf call s:fzf_task()
+
+function! s:lf_task_accept(line, arg)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return
+	endif
+	let name = strpart(a:line, 0, pos)
+	let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+	if name != ''
+		exec "AsyncTask " . name
+	endif
+endfunction
+
+function! s:lf_task_digest(line, mode)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return [a:line, 0]
+	endif
+	let name = strpart(a:line, 0, pos)
+	return [name, 0]
+endfunction
+
+function! s:lf_win_init(...)
+	setlocal nonumber
+	setlocal nowrap
+endfunction
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let g:Lf_Extensions.task = {
+			\ 'source': string(function('s:lf_task_source'))[10:-3],
+			\ 'accept': string(function('s:lf_task_accept'))[10:-3],
+			\ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+			\ 'highlights_def': {
+			\     'Lf_hl_funcScope': '^\S\+',
+			\     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+			\ },
+		\ }
 
 " Sneak
-let g:sneak#s_next = 0
 let g:sneak#label = 1
-nmap f <Plug>Sneak_s
-nmap F <Plug>Sneak_S
-
-" Emmet
-let g:user_emmet_leader_key='<,>'
+let g:sneak#use_ic_scs = 1
 
 " Lightline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
