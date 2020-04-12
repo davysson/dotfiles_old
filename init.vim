@@ -11,7 +11,6 @@ call plug#begin()
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'Yggdroot/indentLine'
 Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -103,7 +102,6 @@ set completeopt=menu,menuone,preview,noselect,noinsert  " fix autocomplete
 colorscheme palenight
 let g:lightline = { 'colorscheme': 'palenight'}
 let g:palenight_terminal_italics=1
-
 highlight Sneak guifg='#bfc7d5' guibg='#697098'
 highlight SneakScope guifg='#bfc7d5' guibg='#BE5046'
 
@@ -164,31 +162,13 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Return to last position on startup
 autocmd BufReadPost *
-      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-      \ |   exe "normal! g`\""
-      \ | endif
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
 
-" Startify
-let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
-let g:startify_fortune_use_unicode = 1
-let g:startify_change_to_dir = 1
-let g:startify_change_to_vcs_root = 1
-let g:startify_files_number = 4
-let g:startify_commands = [
-      \ ['Neovim Reference', 'h ref'],
-      \]
-let g:startify_bookmarks = [{'c': '~/.dotfiles/init.vim'}
-  \, {'f': '~/.dotfiles/config.fish'}
-  \, {'t': '~/.dotfiles/kitty.conf'}]
-
-let g:startify_custom_header = ''
-
+" Plugin mappings
 nmap <silent> <leader>s :Startify<CR>
-
-" LeaderF
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-
+nmap <silent> <leader>n :NERDTreeToggle<CR>
 nmap <silent> <leader>c :LeaderfCommand<CR>
 nmap <silent> <leader>d :LeaderfHelp<CR>
 nmap <silent> <leader>h :LeaderfMru<CR>
@@ -196,8 +176,36 @@ nmap <silent> <leader>l :LeaderfLine<CR>
 nmap <silent> <leader>m :LeaderfFunction<CR>
 nmap <silent> <leader>t :LeaderfTag<CR>
 nmap <silent> <leader>r :Leaderf --nowrap task<CR>
+nnoremap <silent> <leader>ae :ALEToggleBuffer<CR>
+nnoremap <silent> <leader>af :ALEFix<CR>
+nnoremap <silent> <leader>ad :ALEGoToDefinition<CR>
+nnoremap <silent> <leader>at :ALEGoToTypeDefinition<CR>
+nnoremap <silent> <leader>ar :ALEFindReferences<CR>
+nnoremap <silent> <leader>ah :ALEHover<CR>
+nnoremap <silent> <leader>as :ALESymbolSearch<CR>
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 
-" nerdtree
+" Startify
+let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
+let g:startify_change_to_dir = 1
+let g:startify_change_to_vcs_root = 1
+let g:startify_files_number = 5
+let g:startify_skiplist = ['/home/davysson/.dotfiles/*', '/home/davysson/.config/nvim/*', '/usr/share/nvim']
+let g:startify_bookmarks = [{'c': '~/.dotfiles/init.vim'}, {'f': '~/.dotfiles/config.fish'}, {'r': '~/.dotfiles/tasks.ini'}, {'t': '~/.dotfiles/kitty.conf'}]
+let g:startify_custom_header = ''
+
+" LeaderF
+let g:Lf_WindowPosition = 'popup'
+
+" Nerdtree
 let NERDTreeShowHidden = 1
 let NERDTreeMinimalUI = 1
 let NERDTreeWinSize = 25
@@ -205,8 +213,6 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeHighlightFolders = 1
 let g:NERDTreeHighlightFoldersFullName = 1
-
-map <silent> <leader>n :NERDTreeToggle<CR>
 
 " Vista
 let g:vista#renderer#enable_icon = 1
@@ -230,7 +236,6 @@ function! s:lf_task_source(...)
 	endfor
 	return source
 endfunction
-
 
 function! s:lf_task_accept(line, arg)
 	let pos = stridx(a:line, '<')
@@ -274,17 +279,6 @@ let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 
 " Lightline
-nmap <Leader>1 <Plug>lightline#bufferline#go(1)
-nmap <Leader>2 <Plug>lightline#bufferline#go(2)
-nmap <Leader>3 <Plug>lightline#bufferline#go(3)
-nmap <Leader>4 <Plug>lightline#bufferline#go(4)
-nmap <Leader>5 <Plug>lightline#bufferline#go(5)
-nmap <Leader>6 <Plug>lightline#bufferline#go(6)
-nmap <Leader>7 <Plug>lightline#bufferline#go(7)
-nmap <Leader>8 <Plug>lightline#bufferline#go(8)
-nmap <Leader>9 <Plug>lightline#bufferline#go(9)
-nmap <Leader>0 <Plug>lightline#bufferline#go(10)
-
 let g:lightline#bufferline#filename_modifier = ':t'
 let g:lightline#bufferline#min_buffer_count = 2
 let g:lightline#bufferline#unicode_symbols =1
@@ -292,6 +286,7 @@ let g:lightline#bufferline#enable_devicons = 1
 let g:lightline#bufferline#show_number  = 2
 let g:lightline#bufferline#shorten_path = 0
 let g:lightline#bufferline#unnamed      = '[unnamed]'
+
 let g:lightline#bufferline#composed_number_map = {
 \ 1:  '⑴ ', 2:  '⑵ ', 3:  '⑶ ', 4:  '⑷ ', 5:  '⑸ ',
 \ 6:  '⑹ ', 7:  '⑺ ', 8:  '⑻ ', 9:  '⑼ ', 10: '⑽ ',
@@ -304,13 +299,9 @@ let g:lightline#ale#indicator_warnings = "\uf071  "
 let g:lightline#ale#indicator_errors = "\uf05e  "
 let g:lightline#ale#indicator_ok = "\uf00c  "
 
-let g:lightline.tabline          = {'left': [['buffers']], 'right': [[]]}
-let g:lightline.separator = {
-	\   'left': '', 'right': ''
-  \}
-let g:lightline.subseparator = {
-	\   'left': '', 'right': ''
-  \}
+let g:lightline.tabline = {'left': [['buffers']], 'right': [[]]}
+let g:lightline.separator = {'left': '', 'right': ''}
+let g:lightline.subseparator = {'left': '', 'right': ''}
 
 let g:lightline.component_expand = {
       \  'buffers': 'lightline#bufferline#buffers',
@@ -330,10 +321,7 @@ let g:lightline.component_type = {
       \     'linter_ok': 'right',
       \ }
 
-let g:lightline.component_function = {
-      \ 'gitbranch': 'fugitive#head',
-      \}
-
+let g:lightline.component_function = {'gitbranch': 'fugitive#head'}
 let g:lightline.active = {
       \   'left': [ [ 'mode', 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified'] ],
       \   'right': [
@@ -342,14 +330,6 @@ let g:lightline.active = {
       \}
 
 " ALE
-nnoremap <silent> <leader>ae :ALEToggleBuffer<CR>
-nnoremap <silent> <leader>af :ALEFix<CR>
-nnoremap <silent> <leader>ad :ALEGoToDefinition<CR>
-nnoremap <silent> <leader>at :ALEGoToTypeDefinition<CR>
-nnoremap <silent> <leader>ar :ALEFindReferences<CR>
-nnoremap <silent> <leader>ah :ALEHover<CR>
-nnoremap <silent> <leader>as :ALESymbolSearch<CR>
-
 let g:ale_fix_on_save = 1
 let g:ale_set_signs = 0
 let g:ale_lint_on_text_changed = 'normal'
@@ -357,16 +337,13 @@ let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_delay = 0
 let g:ale_linters_explicit = 1
 
-" Prefered linters
-let g:ale_linters = {
-\   'javascript': ['eslint', 'tsserver'],
+let g:ale_linters = {'javascript': ['eslint', 'tsserver'],
 \   'typescript': ['eslint', 'tsserver'],
 \   'python': ['pylint', 'pyls'],
 \   'rust': ['cargo', 'rls'],
 \   'go': ['gofmt', 'gopls']
 \}
 
-" Prefered fixers
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
