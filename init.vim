@@ -15,7 +15,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'farmergreg/vim-lastplace'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'RRethy/vim-illuminate'
@@ -213,15 +213,25 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeHighlightFolders = 1
 let g:NERDTreeHighlightFoldersFullName = 1
 
+" Coc
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <c-space> coc#refresh()
+
 " Vista
 let g:vista#renderer#enable_icon = 1
 
 " Illuminate
 hi illuminatedWord cterm=underline gui=underline
-
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('sources', { '_': ['buffer', 'ale'] })
 
 " Asyntask
 let g:asyncrun_open = 6
@@ -297,7 +307,7 @@ let g:ale_linters = {'javascript': ['eslint', 'tsserver'],
 \   'typescript': ['eslint', 'tsserver'],
 \   'python': ['pylint', 'pyls'],
 \   'rust': ['cargo', 'rls'],
-\   'go': ['gopls', 'gofmt']}
+\   'go': ['gofmt', 'gopls']}
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
