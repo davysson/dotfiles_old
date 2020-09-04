@@ -27,7 +27,7 @@ Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'justinmk/vim-sneak'
-Plug 'psliwka/vim-smoothie'
+Plug 'psliwka/vim-smoothiej'
 Plug 'sheerun/vim-polyglot'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
@@ -43,7 +43,7 @@ au FocusGained,BufEnter * checktime      " Autocheck buffer when switching buffe
 set hidden                               " Buffer becomes hidden when abandoned
 set nomodeline                           " Disable modeline
 set undodir=~/.vim/undodir               " Directory to save undo history
-set undofile                             " Allow vim to persist undo between sessions"
+set undofile                             " Allow vim to persist undo between sessions
 
 " Windows and Tabs
 set splitbelow                           " Vertical splits always below
