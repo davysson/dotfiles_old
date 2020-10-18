@@ -10,15 +10,14 @@ endif
 call plug#begin()
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'mhinz/vim-startify'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'RRethy/vim-illuminate'
+Plug 'voldikss/vim-floaterm'
 Plug 'jiangmiao/auto-pairs'
 Plug 'liuchengxu/vista.vim'
 Plug 'tpope/vim-fugitive'
@@ -27,9 +26,16 @@ Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'justinmk/vim-sneak'
-Plug 'psliwka/vim-smoothiej'
+Plug 'psliwka/vim-smoothie'
 Plug 'sheerun/vim-polyglot'
 Plug 'ryanoasis/vim-devicons'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-hijack.vim'
 call plug#end()
 
 " Encoding
@@ -164,15 +170,22 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Plugin mappings
 nmap <silent> <leader>s :Startify<CR>
-nmap <silent> <leader>n :NERDTreeToggle<CR>
+nmap <silent> <leader>n :Fern . -drawer -toggle<CR>
+nmap <silent> <leader>b :Buffers<CR>
+nmap <silent> <leader>c :Commands<CR>
+nmap <silent> <leader>d :Helptags<CR>
+nmap <silent> <leader>h :History<CR>
+nmap <silent> <leader>r :AsyncTaskFzf<CR>
+nmap <silent> <leader>l :Lines<CR>
+nmap <silent> <leader>L :Rg<CR>
+nmap <silent> <leader>t :Tags<CR>
 
-nmap <silent> <leader>c :LeaderfCommand<CR>
-nmap <silent> <leader>d :LeaderfHelp<CR>
-nmap <silent> <leader>h :LeaderfMru<CR>
-nmap <silent> <leader>l :LeaderfLine<CR>
-nmap <silent> <leader>m :LeaderfFunction<CR>
-nmap <silent> <leader>t :LeaderfTag<CR>
-nmap <silent> <leader>r :Leaderf --nowrap task<CR>
+"Floaterm
+nmap <silent> <leader>t1 :FloatermNew --title=1/5 --autoclose=2<CR>
+
+" Git
+nmap <silent> <leader>gs :GFiles?<CR>
+nmap <silent> <leader>gc :Commits<CR>
 
 nnoremap <silent> <leader>ae :ALEToggleBuffer<CR>
 nnoremap <silent> <leader>af :ALEFix<CR>
@@ -201,17 +214,8 @@ let g:startify_skiplist = ['/home/davysson/.dotfiles/*', '/home/davysson/.config
 let g:startify_bookmarks = [{'c': '~/.dotfiles/init.vim'}, {'f': '~/.dotfiles/config.fish'}, {'r': '~/.dotfiles/tasks.ini'}, {'t': '~/.dotfiles/kitty.conf'}]
 let g:startify_custom_header = ''
 
-" LeaderF
-let g:Lf_WindowPosition = 'popup'
-
-" Nerdtree
-let NERDTreeShowHidden = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeWinSize = 25
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeHighlightFolders = 1
-let g:NERDTreeHighlightFoldersFullName = 1
+" Fern
+let g:fern#renderer = "nerdfont"
 
 " Coc
 inoremap <silent><expr> <TAB>
@@ -233,55 +237,6 @@ let g:vista#renderer#enable_icon = 1
 " Illuminate
 hi illuminatedWord cterm=underline gui=underline
 
-" Asyntask
-let g:asyncrun_open = 6
-
-function! s:lf_task_source(...)
-  let rows = asynctasks#source(&columns * 48 / 100)
-  let source = []
-  for row in rows
-    let name = row[0]
-    let source += [name . '  ' . row[1] . '  : ' . row[2]]
-  endfor
-  return source
-endfunction
-
-function! s:lf_task_accept(line, arg)
-  let pos = stridx(a:line, '<')
-  if pos < 0
-    return
-  endif
-  let name = strpart(a:line, 0, pos)
-  let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
-  if name != ''
-    exec "AsyncTask " . name
-  endif
-endfunction
-
-function! s:lf_task_digest(line, mode)
-  let pos = stridx(a:line, '<')
-  if pos < 0
-    return [a:line, 0]
-  endif
-  let name = strpart(a:line, 0, pos)
-  return [name, 0]
-endfunction
-
-function! s:lf_win_init(...)
-  setlocal nonumber
-  setlocal nowrap
-endfunction
-
-let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
-let g:Lf_Extensions.task = {
-      \ 'source': string(function('s:lf_task_source'))[10:-3],
-      \ 'accept': string(function('s:lf_task_accept'))[10:-3],
-      \ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
-      \ 'highlights_def': {
-      \     'Lf_hl_funcScope': '^\S\+',
-      \     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
-      \ }}
-
 " Sneak
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
@@ -293,6 +248,51 @@ let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+
+" Devcontainer
+
+function! s:devcontainer()
+    let source = ['Reopen in Container', 'Rebuild and Reopen in Container',
+                \ 'Add Devcontainer Configuration Files', 'Open Devcontainer Configuration File',
+                \ 'Attach to running container']
+    call fzf#run({'source': source, 'sink': 'e'})
+endfunction
+
+command! -nargs=0 DevContainerFzf call s:devcontainer()
+
+" Asynctasks
+function! s:fzf_sink(what)
+	let p1 = stridx(a:what, '<')
+	if p1 >= 0
+		let name = strpart(a:what, 0, p1)
+		let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+		if name != ''
+			exec "AsyncTask ". fnameescape(name)
+		endif
+	endif
+endfunction
+
+function! s:fzf_task()
+	let rows = asynctasks#source(&columns * 48 / 100)
+	let source = []
+	for row in rows
+		let name = row[0]
+		let source += [name . '  ' . row[1] . '  : ' . row[2]]
+	endfor
+	let opts = { 'source': source, 'sink': function('s:fzf_sink'),
+				\ 'options': '+m --nth 1 --inline-info --tac' }
+	if exists('g:fzf_layout')
+		for key in keys(g:fzf_layout)
+			let opts[key] = deepcopy(g:fzf_layout[key])
+		endfor
+	endif
+	call fzf#run(opts)
+endfunction
+
+command! -nargs=0 AsyncTaskFzf call s:fzf_task()
+
+" Asynctasks
+let g:asynctasks_extra_config = ['/home/davysson/.dotfiles/tasks.ini']
 
 " ALE
 let g:ale_fix_on_save = 1
@@ -306,7 +306,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {'javascript': ['eslint', 'tsserver'],
 \   'typescript': ['eslint', 'tsserver'],
 \   'python': ['pylint', 'pyls'],
-\   'rust': ['cargo', 'rls'],
+\   'rust': ['rust-analyzer'],
 \   'go': ['gofmt', 'gopls']}
 
 let g:ale_fixers = {
