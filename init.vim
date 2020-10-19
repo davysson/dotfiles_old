@@ -9,7 +9,6 @@ endif
 " Plugins
 call plug#begin()
 Plug 'drewtempelmeyer/palenight.vim'
-Plug 'mhinz/vim-startify'
 Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
@@ -27,6 +26,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'justinmk/vim-sneak'
 Plug 'psliwka/vim-smoothie'
+Plug 'thaerkh/vim-workspace'
 Plug 'sheerun/vim-polyglot'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -169,23 +169,28 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Plugin mappings
-nmap <silent> <leader>s :Startify<CR>
 nmap <silent> <leader>n :Fern . -drawer -toggle<CR>
 nmap <silent> <leader>b :Buffers<CR>
 nmap <silent> <leader>c :Commands<CR>
 nmap <silent> <leader>d :Helptags<CR>
 nmap <silent> <leader>h :History<CR>
 nmap <silent> <leader>r :AsyncTaskFzf<CR>
-nmap <silent> <leader>l :Lines<CR>
-nmap <silent> <leader>L :Rg<CR>
-nmap <silent> <leader>t :Tags<CR>
-
+nmap <silent> <leader>l :BLines<CR>
+nmap <silent> <leader>L :Lines<CR>
+nmap <silent> <leader>g :Rg<CR>
+nmap <silent> <leader>t :BTags<CR>
+nmap <silent> <leader>T :Tags<CR>
+nmap <silent> <leader>m :Marks<CR>
+nmap <silent> <leader>s :ToggleWorkspace<CR>
 "Floaterm
 nmap <silent> <leader>t1 :FloatermNew --title=1/5 --autoclose=2<CR>
 
 " Git
+nmap <silent> <leader>gf :GFiles<CR>
 nmap <silent> <leader>gs :GFiles?<CR>
-nmap <silent> <leader>gc :Commits<CR>
+nmap <silent> <leader>gc :BCommits<CR>
+nmap <silent> <leader>gC :Commits<CR>
+nmap <silent> <leader>gh :GitGutterPreviewHunk<CR>
 
 nnoremap <silent> <leader>ae :ALEToggleBuffer<CR>
 nnoremap <silent> <leader>af :ALEFix<CR>
@@ -205,14 +210,9 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 
-" Startify
-let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
-let g:startify_change_to_dir = 1
-let g:startify_change_to_vcs_root = 1
-let g:startify_files_number = 5
-let g:startify_skiplist = ['/home/davysson/.dotfiles/*', '/home/davysson/.config/nvim/*', '/usr/share/nvim']
-let g:startify_bookmarks = [{'c': '~/.dotfiles/init.vim'}, {'f': '~/.dotfiles/config.fish'}, {'r': '~/.dotfiles/tasks.ini'}, {'t': '~/.dotfiles/kitty.conf'}]
-let g:startify_custom_header = ''
+" Workspace
+let g:workspace_autosave = 0
+let g:workspace_session_directory = $HOME . '/.vim/sessions/'
 
 " Fern
 let g:fern#renderer = "nerdfont"
@@ -249,70 +249,70 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-" Devcontainer
+"" Devcontainer
 
-function! s:devcontainer()
-    let source = ['Reopen in Container', 'Rebuild and Reopen in Container',
-                \ 'Add Devcontainer Configuration Files', 'Open Devcontainer Configuration File',
-                \ 'Attach to running container']
-    call fzf#run({'source': source, 'sink': 'e'})
-endfunction
+"function! s:devcontainer()
+    "let source = ['Reopen in Container', 'Rebuild and Reopen in Container',
+                "\ 'Add Devcontainer Configuration Files', 'Open Devcontainer Configuration File',
+                "\ 'Attach to running container']
+    "call fzf#run({'source': source, 'sink': 'e'})
+"endfunction
 
-command! -nargs=0 DevContainerFzf call s:devcontainer()
+"command! -nargs=0 DevContainerFzf call s:devcontainer()
 
-" Asynctasks
-function! s:fzf_sink(what)
-	let p1 = stridx(a:what, '<')
-	if p1 >= 0
-		let name = strpart(a:what, 0, p1)
-		let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
-		if name != ''
-			exec "AsyncTask ". fnameescape(name)
-		endif
-	endif
-endfunction
+"" Asynctasks
+"function! s:fzf_sink(what)
+	"let p1 = stridx(a:what, '<')
+	"if p1 >= 0
+		"let name = strpart(a:what, 0, p1)
+		"let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+		"if name != ''
+			"exec "AsyncTask ". fnameescape(name)
+		"endif
+	"endif
+"endfunction
 
-function! s:fzf_task()
-	let rows = asynctasks#source(&columns * 48 / 100)
-	let source = []
-	for row in rows
-		let name = row[0]
-		let source += [name . '  ' . row[1] . '  : ' . row[2]]
-	endfor
-	let opts = { 'source': source, 'sink': function('s:fzf_sink'),
-				\ 'options': '+m --nth 1 --inline-info --tac' }
-	if exists('g:fzf_layout')
-		for key in keys(g:fzf_layout)
-			let opts[key] = deepcopy(g:fzf_layout[key])
-		endfor
-	endif
-	call fzf#run(opts)
-endfunction
+"function! s:fzf_task()
+	"let rows = asynctasks#source(&columns * 48 / 100)
+	"let source = []
+	"for row in rows
+		"let name = row[0]
+		"let source += [name . '  ' . row[1] . '  : ' . row[2]]
+	"endfor
+	"let opts = { 'source': source, 'sink': function('s:fzf_sink'),
+				"\ 'options': '+m --nth 1 --inline-info --tac' }
+	"if exists('g:fzf_layout')
+		"for key in keys(g:fzf_layout)
+			"let opts[key] = deepcopy(g:fzf_layout[key])
+		"endfor
+	"endif
+	"call fzf#run(opts)
+"endfunction
 
-command! -nargs=0 AsyncTaskFzf call s:fzf_task()
+"command! -nargs=0 AsyncTaskFzf call s:fzf_task()
 
-" Asynctasks
-let g:asynctasks_extra_config = ['/home/davysson/.dotfiles/tasks.ini']
+"" Asynctasks
+"let g:asynctasks_extra_config = ['/home/davysson/.dotfiles/tasks.ini']
 
-" ALE
-let g:ale_fix_on_save = 1
-let g:ale_set_signs = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_delay = 0
-let g:ale_linters_explicit = 1
-let g:airline#extensions#ale#enabled = 1
+"" ALE
+"let g:ale_fix_on_save = 1
+"let g:ale_set_signs = 0
+"let g:ale_lint_on_text_changed = 'normal'
+"let g:ale_lint_on_insert_leave = 1
+"let g:ale_lint_delay = 0
+"let g:ale_linters_explicit = 1
+"let g:airline#extensions#ale#enabled = 1
 
-let g:ale_linters = {'javascript': ['eslint', 'tsserver'],
-\   'typescript': ['eslint', 'tsserver'],
-\   'python': ['pylint', 'pyls'],
-\   'rust': ['rust-analyzer'],
-\   'go': ['gofmt', 'gopls']}
+"let g:ale_linters = {'javascript': ['eslint', 'tsserver'],
+"\   'typescript': ['eslint', 'tsserver'],
+"\   'python': ['pylint', 'pyls'],
+"\   'rust': ['rust-analyzer'],
+"\   'go': ['gofmt', 'gopls']}
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'go': ['gofmt'],
-\   'rust': ['rustfmt'],
-\   'python': ['yapf']}
+"let g:ale_fixers = {
+"\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+"\   'javascript': ['prettier', 'eslint'],
+"\   'typescript': ['prettier', 'eslint'],
+"\   'go': ['gofmt'],
+"\   'rust': ['rustfmt'],
+"\   'python': ['yapf']}
