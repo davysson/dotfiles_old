@@ -26,7 +26,7 @@ v.cursorline = true
 v.numberwidth = 5
 v.signcolumn = 'yes'
 v.cmdheight = 2
-v.guicursor = 'n-v-c-sm:ver25-blinkon0,i-ci-ve:ver25,r-cr-o:hor20'
+v.guicursor = {'n-v-c-sm:ver25-blinkon0', 'i-ci-ve:ver25', 'r-cr-o:hor20'}
 
 -- Search
 v.ignorecase = true
@@ -53,5 +53,5 @@ vim.cmd('autocmd! bufenter * if &ft ==# "help" | wincmd L | endif')
 v.updatetime = 300
 v.history = 100
 v.timeoutlen = 300
-v.whichwrap = 'b,s,h,l'
-v.completeopt = 'menu,menuone,preview,noselect,noinsert'
+v.whichwrap = {'b', 's', 'h', 'l'}
+v.completeopt = {'menu', 'menuone', 'preview', 'noselect', 'noinsert'}

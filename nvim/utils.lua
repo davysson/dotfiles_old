@@ -1,5 +1,6 @@
 math.randomseed( os.time() )
 
+-- Some util functions
 local function make_global_fn(fn)
     local fn_name = '_function_' .. math.random(1000000)
     while true do
@@ -8,6 +9,14 @@ local function make_global_fn(fn)
     end
     _G[fn_name] = fn
     return fn_name
+end
+
+local function table_to_str(array)
+    str = ''
+    for _, value in ipairs(array) do
+        str = str .. value .. ','
+    end
+    return str:sub(1, #str - 1)
 end
 
 -- Better wrapper for vim table
@@ -44,6 +53,10 @@ local __index = function(table, key)
 end
 
 local __newindex = function(table, key, value)
+    if type(value) == 'table' then
+        value = table_to_str(value)
+    end
+
     if key == 'leader' then
         vim.g.mapleader = value
         return nil
@@ -70,6 +83,10 @@ end
 
 -- Autocmd
 v.autocmd = function(events, pattern, cmd)
+    if type(events) == 'table' then
+        events = table_to_str(events)
+    end
+
     if type(cmd) == 'string' then
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. cmd)
     else

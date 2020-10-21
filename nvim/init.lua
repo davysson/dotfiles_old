@@ -8,4 +8,4 @@ v.leader = ','
 local function print_newfile()
     print('opened new file')
 end
-v.autocmd('bufenter', '*', print_newfile)
+v.autocmd({'bufenter'}, '*', print_newfile)
