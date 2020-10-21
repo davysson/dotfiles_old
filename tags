@@ -1,0 +1,131 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+) awesome.quit	rc.lua	/^   { "quit", function() awesome.quit() end },$/;"	f
+) hotkeys_popup.show_help	rc.lua	/^   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },$/;"	f
+) menubar.show	rc.lua	/^    awful.key({ modkey }, "p", function() menubar.show() end,$/;"	f
++	init.vim	/^nnoremap + <C-W>>$/;"	m
+-	init.vim	/^nnoremap - <C-W><$/;"	m
+<C-A>	init.vim	/^cnoremap <C-A> <Home>$/;"	m
+<C-E>	init.vim	/^cnoremap <C-E> <End>$/;"	m
+<C-H>	init.vim	/^nnoremap <C-H> <C-W><C-H>$/;"	m
+<C-J>	init.vim	/^nnoremap <C-J> <C-W><C-J>$/;"	m
+<C-K>	init.vim	/^cnoremap <C-K> <C-U>$/;"	m
+<C-K>	init.vim	/^nnoremap <C-K> <C-W><C-K>$/;"	m
+<C-L>	init.vim	/^nnoremap <C-L> <C-W><C-L>$/;"	m
+<C-N>	init.vim	/^cnoremap <C-N> <Down>$/;"	m
+<C-P>	init.vim	/^cnoremap <C-P> <Up>$/;"	m
+<CR>	init.vim	/^inoremap <expr> <CR> (pumvisible() ? "\\<c-y>\\<cr>" : "\\<CR>")$/;"	m
+<CR>	init.vim	/^nnoremap <silent> <CR> :nohlsearch<CR>$/;"	m
+<M-[>	init.vim	/^nmap <silent> <M-[> mz:m-2<cr>`z$/;"	m
+<M-[>	init.vim	/^vmap <M-[> :m'<-2<cr>`>my`<mzgv`yo`z$/;"	m
+<M-]>	init.vim	/^nmap <silent> <M-]> mz:m+<cr>`z$/;"	m
+<M-]>	init.vim	/^vmap <silent> <M-]> :m'>+<cr>`<my`>mzgv`yo`z$/;"	m
+<M-h>	init.vim	/^nnoremap <silent> <M-h> :vnew<CR>$/;"	m
+<M-j>	init.vim	/^nnoremap <silent> <M-j> :split<CR>$/;"	m
+<M-k>	init.vim	/^nnoremap <silent> <M-k> :new<CR>$/;"	m
+<M-l>	init.vim	/^nnoremap <silent> <M-l> :vsplit<CR>$/;"	m
+<S-TAB>	init.vim	/^inoremap <expr><S-TAB> pumvisible() ? "\\<C-p>" : "\\<C-h>"$/;"	m
+<S-Tab>	init.vim	/^inoremap <expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"$/;"	m
+<TAB>	init.vim	/^inoremap <silent><expr> <TAB>$/;"	m
+<Tab>	init.vim	/^inoremap <expr> <Tab> pumvisible() ? "\\<C-n>" : "\\<Tab>"$/;"	m
+<c-space>	init.vim	/^inoremap <silent><expr> <c-space> coc#refresh()$/;"	m
+<leader>	vscode.vim	/^nmap <leader> :<c-u>call VSCodeNotify('whichkey.show')<cr>$/;"	m
+<leader>	vscode.vim	/^omap <leader> :<c-u>call VSCodeNotify('whichkey.show')<cr>$/;"	m
+<leader>	vscode.vim	/^vmap <leader> :<c-u>call VSCodeNotify('whichkey.show')<cr>$/;"	m
+<leader>1	init.vim	/^nmap <leader>1 <Plug>AirlineSelectTab1$/;"	m
+<leader>2	init.vim	/^nmap <leader>2 <Plug>AirlineSelectTab2$/;"	m
+<leader>3	init.vim	/^nmap <leader>3 <Plug>AirlineSelectTab3$/;"	m
+<leader>4	init.vim	/^nmap <leader>4 <Plug>AirlineSelectTab4$/;"	m
+<leader>5	init.vim	/^nmap <leader>5 <Plug>AirlineSelectTab5$/;"	m
+<leader>6	init.vim	/^nmap <leader>6 <Plug>AirlineSelectTab6$/;"	m
+<leader>7	init.vim	/^nmap <leader>7 <Plug>AirlineSelectTab7$/;"	m
+<leader>8	init.vim	/^nmap <leader>8 <Plug>AirlineSelectTab8$/;"	m
+<leader>9	init.vim	/^nmap <leader>9 <Plug>AirlineSelectTab9$/;"	m
+<leader>ad	init.vim	/^nnoremap <silent> <leader>ad :ALEGoToDefinition<CR>$/;"	m
+<leader>ae	init.vim	/^nnoremap <silent> <leader>ae :ALEToggleBuffer<CR>$/;"	m
+<leader>af	init.vim	/^nnoremap <silent> <leader>af :ALEFix<CR>$/;"	m
+<leader>ah	init.vim	/^nnoremap <silent> <leader>ah :ALEHover<CR>$/;"	m
+<leader>ar	init.vim	/^nnoremap <silent> <leader>ar :ALEFindReferences<CR>$/;"	m
+<leader>as	init.vim	/^nnoremap <silent> <leader>as :ALESymbolSearch<CR>$/;"	m
+<leader>at	init.vim	/^nnoremap <silent> <leader>at :ALEGoToTypeDefinition<CR>$/;"	m
+<leader>b	init.vim	/^nmap <silent> <leader>b :Buffers<CR>$/;"	m
+<leader>c	init.vim	/^nmap <silent> <leader>c :Commands<CR>$/;"	m
+<leader>d	init.vim	/^nmap <silent> <leader>d :Helptags<CR>$/;"	m
+<leader>e	init.vim	/^map <silent> <leader>e :enew<CR>$/;"	m
+<leader>h	init.vim	/^nmap <silent> <leader>h :History<CR>$/;"	m
+<leader>l	init.vim	/^nmap <silent> <leader>l :Lines<CR>$/;"	m
+<leader>m	init.vim	/^nmap <silent> <leader>m :LeaderfFunction<CR>$/;"	m
+<leader>n	init.vim	/^nmap <silent> <leader>n :NERDTreeToggle<CR>$/;"	m
+<leader>q	init.vim	/^map <silent> <leader>q :Sayonara<CR>$/;"	m
+<leader>qa	init.vim	/^map <silent> <leader>qa :qa<CR>$/;"	m
+<leader>r	init.vim	/^nmap <silent> <leader>r :Leaderf --nowrap task<CR>$/;"	m
+<leader>s	init.vim	/^nmap <silent> <leader>s :Startify<CR>$/;"	m
+<leader>t	init.vim	/^nmap <silent> <leader>t :Tags<CR>$/;"	m
+<leader>w	init.vim	/^map <silent> <leader>w :w!<CR>$/;"	m
+<leader>wq	init.vim	/^map <silent> <leader>wq :wqa!<CR>$/;"	m
+=	init.vim	/^nnoremap = <C-W>=$/;"	m
+Install	init.vim	/^no Install vim-plug$/;"	m
+Install	vscode.vim	/^no Install vim-plug$/;"	m
+NERDTreeMinimalUI	init.vim	/^let NERDTreeMinimalUI = 1$/;"	v
+NERDTreeShowHidden	init.vim	/^let NERDTreeShowHidden = 1$/;"	v
+NERDTreeWinSize	init.vim	/^let NERDTreeWinSize = 25$/;"	v
+awful.key({ modkey,           }, "t",      function (c) c.ontop 	rc.lua	/^    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,$/;"	f
+check_back_space	init.vim	/^function! s:check_back_space() abort$/;"	f
+client.connect_signal("focus", function(c) c.border_color 	rc.lua	/^client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)$/;"	f
+client.connect_signal("unfocus", function(c) c.border_color 	rc.lua	/^client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)$/;"	f
+config	hyper.js	/^  config: {$/;"	p	class:module.exports
+f	vscode.vim	/^map f <Plug>Sneak_s$/;"	m
+g:Lf_Extensions	init.vim	/^let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})$/;"	v
+g:Lf_Extensions	init.vim	/^let g:Lf_Extensions.task = {$/;"	v
+g:Lf_WindowPosition	init.vim	/^let g:Lf_WindowPosition = 'popup'$/;"	v
+g:NERDTreeDirArrowCollapsible	init.vim	/^let g:NERDTreeDirArrowCollapsible = '▾'$/;"	v
+g:NERDTreeDirArrowExpandable	init.vim	/^let g:NERDTreeDirArrowExpandable = '▸'$/;"	v
+g:NERDTreeHighlightFolders	init.vim	/^let g:NERDTreeHighlightFolders = 1$/;"	v
+g:NERDTreeHighlightFoldersFullName	init.vim	/^let g:NERDTreeHighlightFoldersFullName = 1$/;"	v
+g:airline#extensions#ale#enabled	init.vim	/^let g:airline#extensions#ale#enabled = 1$/;"	v
+g:airline#extensions#tabline#buffer_idx_mode	init.vim	/^let g:airline#extensions#tabline#buffer_idx_mode = 1$/;"	v
+g:airline#extensions#tabline#enabled	init.vim	/^let g:airline#extensions#tabline#enabled = 1$/;"	v
+g:airline#extensions#tabline#left_alt_sep	init.vim	/^let g:airline#extensions#tabline#left_alt_sep = ''$/;"	v
+g:airline#extensions#tabline#left_sep	init.vim	/^let g:airline#extensions#tabline#left_sep = ''$/;"	v
+g:airline#extensions#tabline#show_tab_nr	init.vim	/^let g:airline#extensions#tabline#show_tab_nr = 1$/;"	v
+g:airline#extensions#tabline#show_tab_type	init.vim	/^let g:airline#extensions#tabline#show_tab_type = 0$/;"	v
+g:airline_theme	init.vim	/^let g:airline_theme = 'palenight'$/;"	v
+g:ale_fix_on_save	init.vim	/^let g:ale_fix_on_save = 1$/;"	v
+g:ale_fixers	init.vim	/^let g:ale_fixers = {$/;"	v
+g:ale_lint_delay	init.vim	/^let g:ale_lint_delay = 0$/;"	v
+g:ale_lint_on_insert_leave	init.vim	/^let g:ale_lint_on_insert_leave = 1$/;"	v
+g:ale_lint_on_text_changed	init.vim	/^let g:ale_lint_on_text_changed = 'normal'$/;"	v
+g:ale_linters	init.vim	/^let g:ale_linters = {'javascript': ['eslint', 'tsserver'],$/;"	v
+g:ale_linters_explicit	init.vim	/^let g:ale_linters_explicit = 1$/;"	v
+g:ale_set_signs	init.vim	/^let g:ale_set_signs = 0$/;"	v
+g:asyncrun_open	init.vim	/^let g:asyncrun_open = 6$/;"	v
+g:palenight_terminal_italics	init.vim	/^let g:palenight_terminal_italics=1$/;"	v
+g:sneak#label	init.vim	/^let g:sneak#label = 1$/;"	v
+g:sneak#label	vscode.vim	/^let g:sneak#label = 1$/;"	v
+g:sneak#use_ic_scs	init.vim	/^let g:sneak#use_ic_scs = 1$/;"	v
+g:sneak#use_ic_scs	vscode.vim	/^let g:sneak#use_ic_scs = 1$/;"	v
+g:startify_bookmarks	init.vim	/^let g:startify_bookmarks = [{'c': '~\/.dotfiles\/init.vim'}, {'f': '~\/.dotfiles\/config.fish'}, {'r': '~\/.dotfiles\/tasks.ini'}, {'t': '~\/.dotfiles\/kitty.conf'}]$/;"	v
+g:startify_change_to_dir	init.vim	/^let g:startify_change_to_dir = 1$/;"	v
+g:startify_change_to_vcs_root	init.vim	/^let g:startify_change_to_vcs_root = 1$/;"	v
+g:startify_custom_header	init.vim	/^let g:startify_custom_header = ''$/;"	v
+g:startify_custom_indices	init.vim	/^let g:startify_custom_indices = map(range(1,100), 'string(v:val)')$/;"	v
+g:startify_files_number	init.vim	/^let g:startify_files_number = 5$/;"	v
+g:startify_skiplist	init.vim	/^let g:startify_skiplist = ['\/home\/davysson\/.dotfiles\/*', '\/home\/davysson\/.config\/nvim\/*', '\/usr\/share\/nvim']$/;"	v
+g:vista#renderer#enable_icon	init.vim	/^let g:vista#renderer#enable_icon = 1$/;"	v
+if type(wallpaper) 	rc.lua	/^        if type(wallpaper) == "function" then$/;"	f
+lf_task_accept	init.vim	/^function! s:lf_task_accept(line, arg)$/;"	f
+lf_task_digest	init.vim	/^function! s:lf_task_digest(line, mode)$/;"	f
+lf_task_source	init.vim	/^function! s:lf_task_source(...)$/;"	f
+lf_win_init	init.vim	/^function! s:lf_win_init(...)$/;"	f
+mapleader	init.vim	/^let mapleader = ','                      " Change map leader$/;"	v
+mapleader	vscode.vim	/^let mapleader = ','$/;"	v
+set_wallpaper	rc.lua	/^local function set_wallpaper(s)$/;"	f
+t	vscode.vim	/^map t <Plug>Sneak_S/;"	m
+t) awful.tag.viewnext	rc.lua	/^                    awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),$/;"	f
+t) awful.tag.viewprev	rc.lua	/^                    awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)$/;"	f
+t) t:view_only	rc.lua	/^                    awful.button({ }, 1, function(t) t:view_only() end),$/;"	f
+vimrcQfClose	init.vim	/^augroup vimrcQfClose$/;"	a
