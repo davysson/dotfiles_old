@@ -13,12 +13,12 @@ local function make_global_fn(fn)
     return fn_name
 end
 
-local function table_to_str(array)
+local function table_to_str(array, split)
     str = ''
     for _, value in ipairs(array) do
-        str = str .. value .. ','
+        str = str .. value .. split
     end
-    return str:sub(1, #str - 1)
+    return str:sub(1, #str - #split)
 end
 
 -- Wrapper for vim options
@@ -55,7 +55,7 @@ end
 
 local __newindex = function(table, key, value)
     if type(value) == 'table' then
-        value = table_to_str(value)
+        value = table_to_str(value, ',')
     end
 
     if key == 'leader' then
@@ -105,7 +105,7 @@ setmetatable(v.cmd, {__index = __cmd_index, __newindex = __cmd_newindex})
 -- Autocmd
 v.autocmd = function(events, pattern, cmd)
     if type(events) == 'table' then
-        events = table_to_str(events)
+        events = table_to_str(events, ',')
     end
 
     if type(cmd) == 'string' then
@@ -131,6 +131,10 @@ local mappings = {
 
 for _, map in ipairs(mappings) do
     v[map] = function(key, cmd)
+        if type(key) == 'table' then
+            key = table_to_str(key, '')
+        end
+
         if type(cmd) == 'string' then
             vim.cmd(':' .. map .. ' ' .. key .. ' '.. cmd)
         elseif type(cmd) == 'table' then
