@@ -1,7 +1,7 @@
 local v = require('utils')
 
 -- Remap leader key
-v.opt.mapleader = ','
+v.var.mapleader = ','
 
 -- Disable pattern hightlight with return
 v.nnoremap({'<silent>', '<CR>'}, v.cmd.nohlsearch)

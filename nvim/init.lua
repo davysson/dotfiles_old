@@ -8,3 +8,7 @@ local v = require('utils')
 --     print('got ' .. a .. ' and ' .. b)
 -- end
 -- print(vim.inspect(v.cmd.Testcmd))
+v.var.testvar = true
+v.var.b.bufvar = 5
+v.var.w.winvar = 'hi'
+print(v.var.b.bufvar)
