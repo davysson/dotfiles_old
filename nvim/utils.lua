@@ -1,6 +1,8 @@
-math.randomseed( os.time() )
+local v = {}
 
 -- Some util functions
+math.randomseed(os.time())
+
 local function make_global_fn(fn)
     local fn_name = '_function_' .. math.random(1000000)
     while true do
@@ -19,8 +21,7 @@ local function table_to_str(array)
     return str:sub(1, #str - 1)
 end
 
--- Better wrapper for vim table
-local v = {}
+-- Wrapper for vim options
 
 local function has_global_opt(key)
     local status, result = pcall(vim.api.nvim_get_option, key)
@@ -81,6 +82,26 @@ local __newindex = function(table, key, value)
     assert(found_option, string.format("Invalid option name '%s'", key))
 end
 
+-- Commands
+v.cmd = {}
+local __cmd_index = function(table, key)
+    local t = {}
+    setmetatable(t, {
+        __tostring = function() return key end,
+        __call = function() vim.cmd(':' .. key) end,
+    })
+    return t
+end
+
+local __cmd_newindex = function(table, key, fn)
+    local nargs = debug.getinfo(fn).nparams
+    if nargs > 1 then nargs = '*' end
+    local fn_name = make_global_fn(fn)
+    vim.cmd(':command -nargs=' .. nargs .. ' ' .. key .. ' call v:lua.' .. fn_name .. '(<f-args>)')
+end
+
+setmetatable(v.cmd, {__index = __cmd_index, __newindex = __cmd_newindex})
+
 -- Autocmd
 v.autocmd = function(events, pattern, cmd)
     if type(events) == 'table' then
@@ -91,7 +112,7 @@ v.autocmd = function(events, pattern, cmd)
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. cmd)
     else
         fn_name = make_global_fn(cmd)
-        vim.cmd(':autocmd ' .. events .. ' ' .. pattern .. ' :call v:lua.' .. fn_name .. '()')
+        vim.cmd(':autocmd ' .. events .. ' ' .. pattern .. ' call v:lua.' .. fn_name .. '()')
     end
 end
 
@@ -99,16 +120,21 @@ end
 local mappings = {
     'map', 'noremap', 'unmap',
     'nmap', 'nnoremap', 'nunmap',
+    'vmap', 'vnoremap', 'vunmap',
+    'smap', 'snoremap', 'sunmap',
     'xmap', 'xnoremap', 'xunmap',
     'cmap', 'cnoremap', 'cunmap',
     'omap', 'onoremap', 'ounmap',
-    'imap', 'inoremap', 'iunmap'
+    'imap', 'inoremap', 'iunmap',
+    'tmap', 'tnoremap', 'tunmap'
 }
 
 for _, map in ipairs(mappings) do
     v[map] = function(key, cmd)
         if type(cmd) == 'string' then
             vim.cmd(':' .. map .. ' ' .. key .. ' '.. cmd)
+        elseif type(cmd) == 'table' then
+            vim.cmd(':' .. map .. ' ' .. key .. ' :'.. tostring(cmd) .. '<CR>')
         else
             local fn_name = make_global_fn(cmd)
             vim.cmd(':' .. map .. ' ' .. key .. ' :call v:lua.' .. fn_name .. '()<CR>')

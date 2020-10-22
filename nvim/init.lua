@@ -2,10 +2,9 @@ require('plugins')
 require('options')
 require('keymaps')
 local v = require('utils')
--- print(vim.api.nvim_buf_get_option(0, 'swapfile'))
-v.leader = ','
--- v.nmap('<silent> <leader>e', ':enew<CR>')
-local function print_newfile()
-    print('opened new file')
-end
-v.autocmd({'bufenter'}, '*', print_newfile)
+-- print(vim.api.nvim_eval('exists(\':enew\')'))
+-- v.cmd.vsplit()
+-- v.cmd.Testcmd = function(a, b)
+--     print('got ' .. a .. ' and ' .. b)
+-- end
+-- print(vim.inspect(v.cmd.Testcmd))
