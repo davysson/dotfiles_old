@@ -39,7 +39,8 @@ local function has_window_opt(key)
 end
 
 -- Options
-local __index = function(table, key)
+v.opt = {}
+local __opt_index = function(table, key)
     if key == 'leader' then
         return vim.g.mapleader
     elseif has_buffer_opt(key) then
@@ -53,7 +54,7 @@ local __index = function(table, key)
     error(string.format("Invalid option name '%s'\n", key))
 end
 
-local __newindex = function(table, key, value)
+local __opt_newindex = function(table, key, value)
     if type(value) == 'table' then
         value = table_to_str(value, ',')
     end
@@ -82,7 +83,8 @@ local __newindex = function(table, key, value)
     assert(found_option, string.format("Invalid option name '%s'", key))
 end
 
--- Commands
+setmetatable(v.opt, {__index = __opt_index, __newindex = __opt_newindex})
+
 v.cmd = {}
 local __cmd_index = function(table, key)
     local t = {}
@@ -111,7 +113,7 @@ v.autocmd = function(events, pattern, cmd)
         events = table_to_str(events, ',')
     end
 
-    if type(cmd) == 'string' then
+if type(cmd) == 'string' then
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. cmd)
     elseif type(cmd) == 'table' then
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. tostring(cmd))
@@ -140,7 +142,7 @@ for _, map in ipairs(mappings) do
             key = table_to_str(key, '')
         end
 
-        if type(cmd) == 'string' then
+if type(cmd) == 'string' then
             vim.cmd(':' .. map .. ' ' .. key .. ' '.. cmd)
         elseif type(cmd) == 'table' then
             vim.cmd(':' .. map .. ' ' .. key .. ' :'.. tostring(cmd) .. '<CR>')
@@ -151,5 +153,5 @@ for _, map in ipairs(mappings) do
     end
 end
 
-setmetatable(v, {__index = __index, __newindex = __newindex})
+
 return v

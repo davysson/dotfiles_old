@@ -1,7 +1,7 @@
 local v = require('utils')
 
 -- Remap leader key
-v.leader = ','
+v.opt.leader = ','
 
 -- Disable pattern hightlight with return
 v.nnoremap({'<silent>', '<CR>'}, v.cmd.nohlsearch)
