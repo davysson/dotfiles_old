@@ -41,9 +41,7 @@ end
 -- Options
 v.opt = {}
 local __opt_index = function(table, key)
-    if key == 'leader' then
-        return vim.g.mapleader
-    elseif has_buffer_opt(key) then
+    if has_buffer_opt(key) then
         return vim.bo[key]
     elseif has_window_opt(key) then
         return vim.wo[key]
@@ -57,11 +55,6 @@ end
 local __opt_newindex = function(table, key, value)
     if type(value) == 'table' then
         value = table_to_str(value, ',')
-    end
-
-    if key == 'leader' then
-        vim.g.mapleader = value
-        return nil
     end
 
     local found_option = false
