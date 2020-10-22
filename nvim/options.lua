@@ -6,7 +6,7 @@ v.swapfile = false
 v.autowrite = true
 v.hidden = true
 v.modeline = false
-vim.cmd('au FocusGained,BufEnter * checktime')
+v.autocmd({'focusgained', 'bufenter'}, '*', v.cmd.checktime)
 
 -- Windows & Tabs
 v.splitbelow = true
@@ -44,9 +44,9 @@ v.smartindent = true
 v.shiftwidth = 2
 
 -- Filetype
-vim.cmd('filetype on')
-vim.cmd('filetype plugin on')
-vim.cmd('filetype indent on')
+-- vim.cmd('filetype on')
+-- vim.cmd('filetype plugin on')
+-- vim.cmd('filetype indent on')
 
 -- Misc
 vim.cmd('autocmd! bufenter * if &ft ==# "help" | wincmd L | endif')

@@ -88,7 +88,10 @@ local __cmd_index = function(table, key)
     local t = {}
     setmetatable(t, {
         __tostring = function() return key end,
-        __call = function() vim.cmd(':' .. key) end,
+        __call = function(self, ...)
+            local args = table_to_str({...}, ' ')
+            vim.cmd(':' .. key .. ' ' .. args)
+        end,
     })
     return t
 end
@@ -110,6 +113,8 @@ v.autocmd = function(events, pattern, cmd)
 
     if type(cmd) == 'string' then
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. cmd)
+    elseif type(cmd) == 'table' then
+        vim.cmd(':autocmd ' .. events .. ' ' .. pattern ..' '.. tostring(cmd))
     else
         fn_name = make_global_fn(cmd)
         vim.cmd(':autocmd ' .. events .. ' ' .. pattern .. ' call v:lua.' .. fn_name .. '()')
