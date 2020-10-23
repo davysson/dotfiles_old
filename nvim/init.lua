@@ -10,9 +10,7 @@ local v = require('utils')
 -- print(vim.inspect(v.cmd.Testcmd))
 -- print(vim.inspect(v.fn.api_info()))
 v.fn.Sayhi = function(a, b)
-    -- print('hi there')
-    -- print('got ' .. a .. ' and ' .. b)
-    print(vim.inspect(a))
+    print('got ' .. a .. ' and ' .. b)
 end
 
 v.fn.Sayhi(5, 10)

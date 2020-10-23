@@ -198,9 +198,11 @@ local __fn_index = function(table, key)
 end
 
 local __fn_newindex = function(table, key, fn)
-    local fn_name = make_global_fn(fn)
+    local wrapper = function(args)
+        return fn(unpack(args))
+    end
+    local fn_name = make_global_fn(wrapper)
     vim.cmd(':function '.. key .. '(...)\ncall v:lua.' .. fn_name .. '(a:000)\n:endfunction')
-    -- vim.cmd(':function '.. key .. '(...)\ncall v:lua.' .. fn_name .. '(a:000)\n:endfunction')
 end
 
 setmetatable(v.f, {__index = __fn_index, __newindex = __fn_newindex})
