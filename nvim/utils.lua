@@ -188,6 +188,23 @@ if type(cmd) == 'string' then
     end
 end
 
+-- Functions
+v.f = {}
+v.fn = v.f
+v.functions = v.f
+
+local __fn_index = function(table, key)
+    return vim.fn[key]
+end
+
+local __fn_newindex = function(table, key, fn)
+    local fn_name = make_global_fn(fn)
+    vim.cmd(':function '.. key .. '(...)\ncall v:lua.' .. fn_name .. '(a:000)\n:endfunction')
+    -- vim.cmd(':function '.. key .. '(...)\ncall v:lua.' .. fn_name .. '(a:000)\n:endfunction')
+end
+
+setmetatable(v.f, {__index = __fn_index, __newindex = __fn_newindex})
+
 -- Keymaps
 local mappings = {
     'map', 'noremap', 'unmap',
@@ -207,7 +224,7 @@ for _, map in ipairs(mappings) do
             key = table_to_str(key, '')
         end
 
-if type(cmd) == 'string' then
+        if type(cmd) == 'string' then
             vim.cmd(':' .. map .. ' ' .. key .. ' '.. cmd)
         elseif type(cmd) == 'table' then
             vim.cmd(':' .. map .. ' ' .. key .. ' :'.. tostring(cmd) .. '<CR>')
