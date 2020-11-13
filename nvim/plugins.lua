@@ -1,20 +1,19 @@
 vim.cmd [[packadd packer.nvim]]
 local packer = require('packer')
+local v = require('utils')
 
-return packer.startup(function()
+packer.startup(function()
     use {'wbthomason/packer.nvim', opt = true}
     use {'drewtempelmeyer/palenight.vim', config='vim.cmd[[colorscheme palenight]]'}
     use {'preservim/nerdcommenter'}
     use {'skywind3000/asynctasks.vim'}
     use {'skywind3000/asyncrun.vim'}
-    use {'farmergreg/vim-lastplace'}
     use {'RRethy/vim-illuminate'}
     use {'voldikss/vim-floaterm'}
     use {'jiangmiao/auto-pairs'}
     use {'liuchengxu/vista.vim'}
     use {'tpope/vim-fugitive'}
     use {'airblade/vim-gitgutter'}
-    use {'dense-analysis/ale'}
     use {'vim-airline/vim-airline'}
     use {'mhinz/vim-sayonara', cmd = {'Sayonara'}}
     use {'justinmk/vim-sneak'}
@@ -30,3 +29,10 @@ return packer.startup(function()
     use {'lambdalisue/nerdfont.vim'}
     use {'lambdalisue/fern-hijack.vim'}
 end)
+
+-- Workspace
+v.v.g.workspace_autosave = 0
+v.v.g.workspace_session_directory = '/home/davysson/.vim/sessions'
+
+-- Fern
+v.v.g['fern#renderer'] = 'nerdfont'
