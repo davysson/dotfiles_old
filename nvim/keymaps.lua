@@ -47,6 +47,10 @@ v.cnoremap('<C-K>', '<C-U>')
 v.cnoremap('<C-P>', '<Up>')
 v.cnoremap('<C-N>', '<Down>')
 
+-- Better popup navigation
+v.inoremap({'<expr>', '<Tab>'}, 'pumvisible() ? "<C-n>" : "<Tab>"')
+v.inoremap({'<expr>', '<S-Tab>'}, 'pumvisible() ? "<C-p>" : "<S-Tab>"')
+
 -- Plugin mappings
 v.nmap({'<silent>', '<leader>', 'n'}, ':Fern . -drawer -toggle<CR>')
 v.nmap({'<silent>', '<leader>', 'b'}, v.cmd.Buffers)

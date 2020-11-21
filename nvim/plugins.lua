@@ -4,6 +4,8 @@ local v = require('utils')
 
 packer.startup(function()
     use {'wbthomason/packer.nvim', opt = true}
+    use {'neovim/nvim-lspconfig'}
+    use {'nvim-lua/completion-nvim'}
     use {'drewtempelmeyer/palenight.vim', config='vim.cmd[[colorscheme palenight]]'}
     use {'preservim/nerdcommenter'}
     use {'skywind3000/asynctasks.vim'}
@@ -29,6 +31,10 @@ packer.startup(function()
     use {'lambdalisue/nerdfont.vim'}
     use {'lambdalisue/fern-hijack.vim'}
 end)
+
+-- LSP
+require'nvim_lsp'.rust_analyzer.setup{}
+require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach}
 
 -- Workspace
 v.v.g.workspace_autosave = 0
