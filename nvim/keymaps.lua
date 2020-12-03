@@ -34,7 +34,7 @@ v.nnoremap('=', '<C-W>=')
 -- Fast saving and quitting
 v.map({'<silent>', '<leader>', 'w'}, v.cmd['w!'])
 v.map({'<silent>', '<leader>', 'w', 'q'}, v.cmd['wqa!'])
-v.map({'<silent>', '<leader>', 'q'}, v.cmd.Sayonara)
+v.map({'<silent>', '<leader>', 'q'}, v.cmd.BufferClose)
 v.map({'<silent>', '<leader>', 'q', 'a'}, v.cmd.qa)
 
 -- Fast file creation
@@ -51,23 +51,21 @@ v.cnoremap('<C-N>', '<Down>')
 v.inoremap({'<expr>', '<Tab>'}, 'pumvisible() ? "<C-n>" : "<Tab>"')
 v.inoremap({'<expr>', '<S-Tab>'}, 'pumvisible() ? "<C-p>" : "<S-Tab>"')
 
--- Plugin mappings
-v.nmap({'<silent>', '<leader>', 'n'}, ':Fern . -drawer -toggle<CR>')
-v.nmap({'<silent>', '<leader>', 'b'}, v.cmd.Buffers)
-v.nmap({'<silent>', '<leader>', 'c'}, v.cmd.Commands)
-v.nmap({'<silent>', '<leader>', 'd'}, v.cmd.Helptags)
-v.nmap({'<silent>', '<leader>', 'h'}, v.cmd.History)
-v.nmap({'<silent>', '<leader>', 'r'}, v.cmd.AsyncTaskFzf)
-v.nmap({'<silent>', '<leader>', 'l'}, v.cmd.BLines)
-v.nmap({'<silent>', '<leader>', 'L'}, v.cmd.Lines)
-v.nmap({'<silent>', '<leader>', 'g'}, v.cmd.Rg)
-v.nmap({'<silent>', '<leader>', 't'}, v.cmd.BTags)
-v.nmap({'<silent>', '<leader>', 'T'}, v.cmd.Tags)
-v.nmap({'<silent>', '<leader>', 'm'}, v.cmd.Marks)
+-- Planetary
+v.nmap({'<silent>', '<leader>', 'b'}, ':Telescope buffers<CR>')
+v.nmap({'<silent>', '<leader>', 'c'}, ':Telescope commands<CR>')
+v.nmap({'<silent>', '<leader>', 'd'}, ':Telescope help_tags<CR>')
+v.nmap({'<silent>', '<leader>', 'h'}, ':Telescope oldfiles<CR>')
+v.nmap({'<silent>', '<leader>', 'l'}, ':Telescope current_buffer_fuzzy_find<CR>')
+v.nmap({'<silent>', '<leader>', 'g'}, ':Telescope find_files<CR>')
+v.nmap({'<silent>', '<leader>', 'h'}, ':Telescope oldfiles<CR>')
+
+-- Workspace
 v.nmap({'<silent>', '<leader>', 's'}, v.cmd.ToggleWorkspace)
 
 -- Floaterm
-v.nmap({'<silent>', '<leader>', 't', '1'}, ':FloatermNew --title=1/5 --autoclose=2<CR>')
+v.nmap({'<silent>', '<leader>', 't'}, ':FloatermNew --title=1/5 --autoclose=2<CR>')
+v.nmap({'<silent>', '<leader>', 'n'}, ':FloatermNew ranger<CR>')
 
 -- Git
 v.nmap({'<silent>', '<leader>', 'g', 'f'}, v.cmd.GFiles)
@@ -75,3 +73,10 @@ v.nmap({'<silent>', '<leader>', 'g', 's'}, v.cmd['GFiles?'])
 v.nmap({'<silent>', '<leader>', 'g', 'c'}, v.cmd.BCommits)
 v.nmap({'<silent>', '<leader>', 'g', 'C'}, v.cmd.Commits)
 v.nmap({'<silent>', '<leader>', 'g', 'h'}, v.cmd.GitGutterPreviewHunk)
+
+-- Tabline
+v.nnoremap({'<silent>', '<leader>', '1'}, '::BufferGoto 1<CR>')
+v.nnoremap({'<silent>', '<leader>', '2'}, '::BufferGoto 2<CR>')
+v.nnoremap({'<silent>', '<leader>', '3'}, '::BufferGoto 3<CR>')
+v.nnoremap({'<silent>', '<leader>', '4'}, '::BufferGoto 4<CR>')
+v.nnoremap({'<silent>', '<leader>', '5'}, '::BufferGoto 5<CR>')
