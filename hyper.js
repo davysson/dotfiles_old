@@ -1,1 +1,0 @@
-/home/davysson/.hyper.js
