@@ -7,7 +7,6 @@ vim.g.mapleader = ","
 vim.opt.writebackup = false
 vim.opt.swapfile = false
 vim.opt.autowrite = true
-vim.opt.hidden = true
 vim.opt.modeline = false
 
 -- Windows & Tabs
@@ -47,28 +46,11 @@ vim.opt.smartindent = true
 vim.opt.shiftwidth = 4
 
 -- Info
-vim.opt.shortmess = vim.opt.shortmess
-    + {
-        c = true, -- Do not show completion messages in command line
-        F = true, -- Do not show file info when editing a file, in the command line
-        W = true, -- Do not show "written" in command line when writing
-        I = true, -- Do not show intro message when starting Vim
-    }
+vim.opt.shortmess = vim.opt.shortmess + {c = true, F = true, W = true, I = true}
 
 -- Misc
 vim.opt.updatetime = 300
 vim.opt.history = 100
 vim.opt.timeoutlen = 300
-vim.opt.whichwrap = {
-    b = true,
-    s = true,
-    h = true,
-    l = true,
-}
-vim.opt.completeopt = {
-    menu = true,
-    menuone = true,
-    preview = true,
-    noselect = true,
-    noinsert = true,
-}
+vim.opt.whichwrap = {b = true, s = true, h = true, l = true}
+vim.opt.completeopt = {menu = true, menuone = true, preview = true, noselect = true, noinsert = true}
