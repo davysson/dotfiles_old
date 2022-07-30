@@ -10,5 +10,5 @@ if [ -z "$container" ]; then
     fi
 
     # enter the container
-    SHELL=$shell toolbox enter $image
+    #SHELL=$shell toolbox enter $image
 fi
