@@ -70,10 +70,10 @@ require('packer').startup(function(use)
   --use { 'Pocco81/auto-save.nvim', config = function() require("auto-save").setup {execution_message = ""} end }
   use { 'rmagatti/auto-session', config = function() require('auto-session').setup { log_level = 'error' } end }
   --use { 'hrsh7th/nvim-cmp', config = function() require('cmp').setup{} end }
-  --use { 'RRethy/vim-illuminate' }
+  use { 'RRethy/vim-illuminate' }
   use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
   use { 'kyazdani42/nvim-web-devicons', config = function() require("nvim-web-devicons").setup {default = true} end }
-  --use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim', config = function() require("diffview").setup() end }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim', config = function() require("diffview").setup() end }
   --use { 'feline-nvim/feline.nvim', config = function () require('feline').setup() end }
   use { 'lewis6991/gitsigns.nvim',  config = function() require('gitsigns').setup{current_line_blame = true} end }
   use { 'phaazon/hop.nvim', config = function() require("hop").setup() end }
@@ -88,7 +88,6 @@ require('packer').startup(function(use)
   -- Session Lens
   -- Sidebar
   use { 'nvim-telescope/telescope.nvim', config = function() require('telescope').setup{} end }
-  -- TODO
   use {"akinsho/toggleterm.nvim", config = function() require("toggleterm").setup() end }
   -- Treesitter
   use { 'EdenEast/nightfox.nvim', config = function() require('nightfox').setup{} end }
@@ -201,4 +200,4 @@ vim.keymap.set('n',  "<leader>s" , ":SearchSession<CR>", {silent = true})
 
 -- [T]erm
 vim.keymap.set('n',  "<leader>t" , ":ToggleTerm<CR>", {silent = true})
-vim.keymap.set('t', "<ESC>" , "<C-\\><C-n><CMD>ToggleTermCloseAll<CR>", {silent = true})
+vim.keymap.set('t', "<ESC>" , "<C-\\><C-n><CMD>ToggleTermToggleAll<CR>", {silent = true})
