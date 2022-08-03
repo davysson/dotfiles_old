@@ -54,3 +54,20 @@ vim.opt.history = 100
 vim.opt.timeoutlen = 300
 vim.opt.whichwrap = {b = true, s = true, h = true, l = true}
 vim.opt.completeopt = {menu = true, menuone = true, preview = true, noselect = true, noinsert = true}
+
+---------- Packages ----------
+
+-- Packer
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+return require('packer').startup(function(use)
+  use { 'wbthomason/packer.nvim' }
+  use { 'williamboman/mason.nvim', config = function() require("mason").setup() end }
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
+end)
