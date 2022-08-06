@@ -4,5 +4,7 @@ RUN dnf install --nodocs --setopt install_weak_deps=False -y fish bat exa fd-fin
 # Clean image
 RUN dnf clean all -y
 # Install rust
+ENV CARGO_HOME=/opt/cargo
+ENV RUSTUP_HOME=/opt/rustup
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-RUN export PATH="$HOME/.cargo/bin:$PATH" && rustup default stable
+RUN /opt/cargo/bin/rustup default stable

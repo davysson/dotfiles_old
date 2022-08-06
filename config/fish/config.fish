@@ -2,7 +2,7 @@
 set fish_greeting
 
 # add rust executables to PATH
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/opt/cargo/bin:$PATH"
 
 # set starship prompt
 starship init fish | source
