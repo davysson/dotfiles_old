@@ -17,6 +17,6 @@ if [ -t 0 ]; then
         fi
 
         # enter the container with custom shell
-        SHELL=$shell toolbox enter $image
+        SHELL=$shell TERM=xterm-256color toolbox enter $image
     fi
 fi
