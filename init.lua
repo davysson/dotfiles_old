@@ -66,10 +66,64 @@ end
 require('packer').startup(function(use)
   use { 'wbthomason/packer.nvim' }
   use { 'williamboman/mason.nvim', config = function() require("mason").setup() end }
+  use { "williamboman/mason-lspconfig.nvim", requires = {"neovim/nvim-lspconfig"}, config = function() require("mason-lspconfig").setup{
+    ensure_installed = { "sumneko_lua", "rust_analyzer", "pyright", "tsserver", "gopls", "bashls", "clangd" }
+   } end }
   use { 'windwp/nvim-autopairs', config = function() require("nvim-autopairs").setup {} end }
   --use { 'Pocco81/auto-save.nvim', config = function() require("auto-save").setup {execution_message = ""} end }
   use { 'rmagatti/auto-session', config = function() require('auto-session').setup { log_level = 'error' } end }
-  --use { 'hrsh7th/nvim-cmp', config = function() require('cmp').setup{} end }
+  use { 'rafamadriz/friendly-snippets' }
+  use { 'L3MON4D3/LuaSnip', config = function() require('luasnip.loaders.from_vscode').lazy_load{} end }
+  use { 'hrsh7th/nvim-cmp', requires = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path"}, config = function() 
+    local cmp = require('cmp')
+    cmp.setup({
+      snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end,
+      },
+      sources = {
+          { name = "nvim_lsp" },
+          { name = "buffer" },
+          { name = "path" },
+          { name = "luasnip" },
+      },
+      mapping = {
+          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.close(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+              if cmp.visible() then
+                  cmp.select_next_item()
+              elseif require('luasnip').expand_or_jumpable() then
+                require('luasnip').expand_or_jump()
+              elseif has_words_before() then
+                  cmp.complete()
+              else
+                  fallback()
+              end
+          end, {
+              "i",
+              "s",
+          }),
+
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+              if cmp.visible() then
+                  cmp.select_prev_item()
+              elseif require('luasnip').jumpable(-1) then
+                require('luasnip').jump(-1)
+              else
+                  fallback()
+              end
+          end, {
+              "i",
+              "s",
+          }),
+      },
+  })
+  end }
   use { 'RRethy/vim-illuminate' }
   use { 'numToStr/Comment.nvim', config = function() require('Comment').setup() end }
   use { 'kyazdani42/nvim-web-devicons', config = function() require("nvim-web-devicons").setup {default = true} end }
@@ -77,7 +131,6 @@ require('packer').startup(function(use)
   --use { 'feline-nvim/feline.nvim', config = function () require('feline').setup() end }
   use { 'lewis6991/gitsigns.nvim',  config = function() require('gitsigns').setup{current_line_blame = true} end }
   use { 'phaazon/hop.nvim', config = function() require("hop").setup() end }
-  -- Luasnip
   use { 'TimUntersberger/neogit', requires = { 'nvim-lua/plenary.nvim' }, config = function() require("neogit").setup{ 
     signs = { section = { "→", "↓" }, item = { "→", "↓" }, hunk = { "", "" }}, 
     integrations = { diffview = true }}
