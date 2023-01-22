@@ -10,6 +10,9 @@ export PATH="$HOME/zls:$PATH"
 # add pyenv to path
 export PATH="$HOME/.pyenv/bin:$PATH"
 
+# add ai/bin
+export PATH="$HOME/Projects/ai/bin:$PATH"
+
 # add fnm to PATH
 fnm env --use-on-cd | source
 
@@ -29,7 +32,6 @@ starship init fish | source
 zoxide init fish | source
 
 # alias to run ML image
-set --local image "artigen"
-set --local directory "artigen"
-alias agrun="sudo docker run -it --network=host --device=/dev/kfd --device=/dev/dri --group-add=video --ipc=host --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $HOME/Projects/$directory:/$directory $image"
-alias agbuild="sudo docker build -t $image $HOME/Projects/$directory"
+set --local image "ai"
+set --local directory "ai"
+alias aibuild="sudo docker build -t $image $HOME/Projects/$directory"

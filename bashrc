@@ -20,3 +20,7 @@ if [ -t 0 ]; then
         SHELL=$shell TERM=xterm-256color toolbox enter $image
     fi
 fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
