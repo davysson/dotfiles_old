@@ -12,20 +12,18 @@ fish_add_path $HOME/.dot/bin
 
 # check if running in container
 if test -e /run/.containerenv
-    # prompt when running inside container
-    set -g lucid_prompt_symbol "#❯"
-    set -g lucid_prompt_symbol_error "#❯"
 
-    # update PATH
-    fish_add_path $CARGO_HOME/bin
-    fish_add_path $PYENV_ROOT/bin
+    # set variables
+    set -gx PYENV_ROOT /opt/pyenv
+    set -gx GOPATH /opt/go
 
     # initialize pyenv
     pyenv init - | source
     pyenv virtualenv-init - | source
 
-    # load global virtualenv
-    pyenv activate global
+    # prompt when running inside container
+    set -g lucid_prompt_symbol "#❯"
+    set -g lucid_prompt_symbol_error "#❯"
 
 else
     # prompt when running outside container
@@ -33,9 +31,8 @@ else
     set -g lucid_prompt_symbol_error "❯"
 
     function box
-        set -l NAME "dbx-ubuntu"
-        set -l IMAGE $NAME:22.04
-        set -l PYENV_ROOT "/opt/pyenv"
+        set -l NAME "archlinux-box"
+        set -l IMAGE $NAME
     
         # check if box already exists
         if ! distrobox list | grep -q $NAME
