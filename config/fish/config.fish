@@ -30,26 +30,28 @@ else
     set -g lucid_prompt_symbol "❯"
     set -g lucid_prompt_symbol_error "❯"
 
-    function box
-        set -l NAME "archlinux-box"
-        set -l IMAGE $NAME
+    function dbox
+        set -l name "archlinux-box"
+        set -l image $name
     
         # check if box already exists
-        if ! distrobox list | grep -q $NAME
-            distrobox create \
+        if ! distrobox list | grep -q $name   
+
+            distrobox create    \
                 --additional-flags "\
                     --device=/dev/kfd \
                     --device=/dev/dri \
-                    --group-add keep-groups \
-                    --cap-add=SYS_PTRACE \
-                    --security-opt seccomp=unconfined" \
-                --yes \
-                --image $IMAGE \
-                --name $NAME \
-                --init-hooks "chown $USER:$USER -R /opt"
+                        --group-add keep-groups \
+                        --cap-add=SYS_PTRACE \
+                        --security-opt seccomp=unconfined" \
+                    --yes \
+                    --image $image \
+                    --name $name \
+                    --init-hooks "chown $USER:$USER -R /opt"
         end
-    
+
+
         # enter the created box
-        distrobox enter $NAME
+        distrobox enter $name
     end
 end
